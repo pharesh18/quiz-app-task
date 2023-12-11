@@ -1,0 +1,113 @@
+.questions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.questions .question-box {
+    width: 550px;
+    box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.questions .question-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 2px solid rgb(202, 201, 201);
+
+}
+
+.questions .question-header .score {
+    padding: 5px 10px;
+    font-weight: 600;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.questions .question-box .que {
+    font-size: 18px;
+    font-weight: 500;
+    padding: 20px 30px 10px 30px;
+}
+
+.questions .question-box .question-options {
+    padding: 0 30px;
+    margin-bottom: 40px;
+}
+
+.questions .option-box {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+.questions .option-btn {
+    width: 100%;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: aliceblue;
+    border: 2px solid #84c5fe;
+    border-radius: 4px;
+}
+
+.questions .option-btn span {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.questions .answer-icon {
+    display: flex;
+}
+
+.questions .right-icon {
+    width: 30px;
+    height: 30px;
+    color: green;
+    display: none;
+}
+
+.questions .wrong-icon {
+    width: 30px;
+    height: 30px;
+    color: red;
+    display: none;
+}
+
+.questions .question-box .question-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid rgb(202, 201, 201);
+    padding: 10px 15px;
+}
+
+.questions .question-footer .next-btn {
+    padding: 4px 18px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.questions .question-footer span {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.questions .question-footer .quit {
+    padding: 4px 18px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+}

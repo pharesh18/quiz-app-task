@@ -1,0 +1,167 @@
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+// import { decode } from 'html-entities';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import '../../css/Questions.css';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { handleChangeScore } from '../../redux/actions/quizAction';
+import ApiCaller from '../../apiCaller/ApiCaller';
+import { GET_QUESTIONS_ERROR, GET_QUESTIONS_FAIL, GET_QUESTIONS_REQUEST, GET_QUESTIONS_SUCCESS } from '../../redux/constants/constants';
+import Loader from './Loader';
+import Error from './Error';
+import Loading from './Loading';
+
+// const generateRandomInt = (max) => {
+//     return Math.floor(Math.random() * Math.floor(max));
+// }
+
+const Questions = () => {
+    const { question_category, question_difficulty, question_type, amount_of_question, score } = useSelector(state => state.quizReducer);
+    const { loading, error } = useSelector(state => state.getQuestionsReducer);
+
+    const [ques, setQues] = useState([]);
+    const [curQue, setCurQue] = useState(0);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // let api = `https://opentdb.com/api.php?amount=${amount_of_question}&category=${question_category}&difficulty=${question_difficulty}&type=${question_type}`;
+    // let api = `https://opentdb.com/api.php?amount=${amount_of_question}&category=9&difficulty=${question_difficulty}&type=${question_type}`;
+
+    // let api = 'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple';
+    // console.log(body);
+    // console.log(api);
+
+    const loadData = () => {
+        const body = {
+            category: question_category,
+            difficulty: question_difficulty,
+            type: question_type,
+            amount_of_questions: amount_of_question
+        }
+
+        dispatch({ type: GET_QUESTIONS_REQUEST });
+        axios.post(`${ApiCaller.site}/questions/get`, body).then((data) => {
+            if (!data.error) {
+                dispatch({ type: GET_QUESTIONS_SUCCESS });
+                setQues(data.data.data);
+                console.log(data.data.data);
+            } else {
+                toast.error(data.message);
+                dispatch({ type: GET_QUESTIONS_FAIL });
+                navigate('/dashboard');
+            }
+        }).catch((err) => {
+            console.log(err);
+            dispatch({ type: GET_QUESTIONS_ERROR, payload: err });
+        });
+    }
+
+    const handleQuitQuiz = () => {
+        navigate('/dashboard');
+    }
+
+    const handleBtnClick = (e, rightAnswer) => {
+        const selectedOption = e.target.value;
+
+        if (selectedOption === rightAnswer) {
+            dispatch(handleChangeScore(score + 1));
+        }
+
+        // Display right icon for the correct answer
+        const rightIcon = e.target.parentNode.querySelector('.right-icon');
+        rightIcon.style.display = selectedOption === rightAnswer ? 'block' : 'none';
+
+        // Display wrong icon for incorrect answer
+        const wrongIcon = e.target.parentNode.querySelector('.wrong-icon');
+        wrongIcon.style.display = selectedOption !== rightAnswer ? 'block' : 'none';
+
+        // Display right icon for the correct answer in the selected option
+        const selectedOptionRightIcon = document.querySelector(`.option-btn[value="${rightAnswer}"] .right-icon`);
+        selectedOptionRightIcon.style.display = 'block';
+
+        const selectedOptionRightBtn = document.querySelector(`.option-btn[value="${rightAnswer}"]`);
+        selectedOptionRightBtn.style.backgroundColor = '#aaf8c9';
+        selectedOptionRightBtn.style.color = 'green';
+
+        if (selectedOption !== rightAnswer) {
+            const selectedOptionWrongBtn = document.querySelector(`.option-btn[value="${selectedOption}"]`);
+            selectedOptionWrongBtn.style.backgroundColor = '#ffcbd1';
+            selectedOptionWrongBtn.style.color = 'red';
+        }
+
+        document.querySelectorAll('.option-btn').forEach((ele) => {
+            ele.disabled = true;
+        });
+    };
+
+    const handleNext = () => {
+
+    }
+
+    const handleFinish = () => {
+
+    }
+
+    useEffect(() => {
+        if (!question_category || !question_difficulty || !question_type || !amount_of_question) {
+            navigate('/dashboard');
+        }
+        loadData();
+    }, []);
+
+    let optArray = ["Option 1", "Option 2", "Option 3", "Option 4"];
+
+    return (
+        <>
+            {
+                loading && <Loader />
+            }
+            {
+                error && <Error error={error} />
+            }
+            {ques ? (
+                <>
+                    <div className='questions'>
+                        <div className="question-box">
+                            <div className="question-header">
+                                <h5>Quiz Application</h5>
+                                <div className="score">Score : {score}/5</div>
+                            </div>
+                            <p className='que'>{curQue + 1}. {ques[curQue]?.question}</p>
+                            <div className="question-options">
+                                {ques[curQue]?.choices?.map((val, idx) => {
+                                    return (
+                                        <div key={idx} className="option-box">
+                                            <button className='option-btn' onClick={(e) => handleBtnClick(e, ques[curQue].correct_answer)} value={val}>
+                                                <span>{val}</span>
+                                                <div className="answer-icon">
+                                                    <CheckCircleOutlineIcon className='right-icon'></CheckCircleOutlineIcon>
+                                                    <HighlightOffIcon className='wrong-icon'></HighlightOffIcon>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <div className="question-footer">
+                                <button className='quit' onClick={handleQuitQuiz}>Quit</button>
+                                <span>{curQue + 1} of {ques?.length} questions</span>
+                                {curQue + 1 === ques?.length ? (
+                                    <button className="next-btn" onClick={handleFinish}>Finish</button>
+                                ) : (
+                                    <button className="next-btn" onClick={handleNext}>Next</button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </>) : (null)}
+
+        </>
+    )
+}
+
+export default Questions
