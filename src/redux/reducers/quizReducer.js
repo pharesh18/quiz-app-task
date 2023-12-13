@@ -7,7 +7,8 @@ import {
     GET_QUESTIONS_REQUEST,
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAIL,
-    GET_QUESTIONS_ERROR
+    GET_QUESTIONS_ERROR,
+    GET_QUIZZES
 } from '../constants/constants';
 
 
@@ -29,6 +30,15 @@ export const getQuestionsReducer = (state = {}, action) => {
             return { loading: false }
         case GET_QUESTIONS_ERROR:
             return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
+
+export const getQuizzesReducer = (state = [], action) => {
+    switch (action.type) {
+        case GET_QUIZZES:
+            return { state: action.payload }
         default:
             return state;
     }

@@ -18,10 +18,10 @@ const Sidebar = () => {
     useEffect(() => {
         if (pathname === '/dashboard') {
             setNavActive(1);
-        } else if (pathname === '/history') {
+        } else if (pathname === '/dashboard/history' || '/dashboard/history/*') {
             setNavActive(2);
         }
-        else if (pathname === '/leaderboard') {
+        else if (pathname === '/dashboard/leaderboard') {
             setNavActive(3);
         } else if (pathname === '/dashboard/userprofile') {
             setNavActive(4);
@@ -40,7 +40,7 @@ const Sidebar = () => {
                         <span className="route"> Quiz</span>
                     </Link>
 
-                    <Link to="/recent" className="single-menu" id={navActive === 2 ? 'nav-active' : ''} onLoad={() => setNavActive(2)}>
+                    <Link to="/dashboard/history" className="single-menu" id={navActive === 2 ? 'nav-active' : ''} onLoad={() => setNavActive(2)}>
                         <AccessTimeIcon className='menu-icon' />
                         <span className="route">History</span>
                     </Link>

@@ -32,7 +32,7 @@ const SelectField = ({ label, options }) => {
     return (
         <>
             <div>
-                <select value={value} onChange={handleChange}>
+                <select value={value} onChange={handleChange} required>
                     <option value="" disabled selected style={{ display: "none" }}></option>
                     {
                         options.map(({ id, name }) => {

@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, Mongoose } = require('mongoose')
 // const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 
@@ -62,7 +62,7 @@ schema.questions = Schema({
         type: String,
         required: true,
     },
-    incorrect_answers: {
+    choices: {
         type: Array,
         required: true,
     },
@@ -74,6 +74,29 @@ schema.questions = Schema({
         type: String,
         required: true,
     }
+});
+
+schema.quiz = Schema({
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+        required: true,
+    },
+    quiz: {
+        type: Array,
+        required: true,
+    }
+    // quiz: {
+    //     que_id: {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'questions',
+    //         required: true,
+    //     },
+    //     user_answer: {
+    //         type: String,
+    //         required: true,
+    //     },
+    // }
 });
 
 
@@ -90,5 +113,6 @@ schema.users.pre('save', async function () {
 
 const users = model('users', schema.users);
 const questions = model('questions', schema.questions);
+const quizzes = model('quizzes', schema.quiz);
 
-module.exports = { users, questions };
+module.exports = { users, questions, quizzes };

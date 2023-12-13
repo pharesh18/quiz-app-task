@@ -7,7 +7,7 @@ import axios from 'axios';
 import '../../css/Questions.css';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { handleChangeScore } from '../../redux/actions/quizAction';
+import { addQuizHistory, handleChangeScore } from '../../redux/actions/quizAction';
 import ApiCaller from '../../apiCaller/ApiCaller';
 import { GET_QUESTIONS_ERROR, GET_QUESTIONS_FAIL, GET_QUESTIONS_REQUEST, GET_QUESTIONS_SUCCESS } from '../../redux/constants/constants';
 import Loader from './Loader';
@@ -24,6 +24,7 @@ const Questions = () => {
 
     const [ques, setQues] = useState([]);
     const [curQue, setCurQue] = useState(0);
+    const [quiz, setQuiz] = useState([]);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -48,7 +49,6 @@ const Questions = () => {
             if (!data.error) {
                 dispatch({ type: GET_QUESTIONS_SUCCESS });
                 setQues(data.data.data);
-                console.log(data.data.data);
             } else {
                 toast.error(data.message);
                 dispatch({ type: GET_QUESTIONS_FAIL });
@@ -86,34 +86,81 @@ const Questions = () => {
         const selectedOptionRightBtn = document.querySelector(`.option-btn[value="${rightAnswer}"]`);
         selectedOptionRightBtn.style.backgroundColor = '#aaf8c9';
         selectedOptionRightBtn.style.color = 'green';
+        selectedOptionRightBtn.style.border = '2px solid green';
 
         if (selectedOption !== rightAnswer) {
             const selectedOptionWrongBtn = document.querySelector(`.option-btn[value="${selectedOption}"]`);
             selectedOptionWrongBtn.style.backgroundColor = '#ffcbd1';
             selectedOptionWrongBtn.style.color = 'red';
+            selectedOptionWrongBtn.style.border = '2px solid red';
         }
 
         document.querySelectorAll('.option-btn').forEach((ele) => {
             ele.disabled = true;
         });
+
+        document.querySelectorAll('.next-btn').forEach((ele) => {
+            ele.disabled = false;
+        });
+
+
+        // setQues(...ques[curQue].user_answer = selectedOption);
+        // console.log(ques);
+        const data = {
+            que_id: ques[curQue]._id,
+            user_answer: selectedOption,
+        }
+
+        setQuiz(prev => [
+            ...prev, data
+        ]);
     };
 
     const handleNext = () => {
+        setCurQue(curQue + 1);
 
+        document.querySelectorAll('.option-btn').forEach((ele) => {
+            ele.disabled = false;
+            ele.style.backgroundColor = "aliceblue";
+            ele.style.color = "black";
+            ele.style.border = '2px solid #84c5fe';
+        });
+
+        document.querySelectorAll('.wrong-icon').forEach((ele) => {
+            ele.style.display = 'none';
+        });
+
+        document.querySelectorAll('.right-icon').forEach((ele) => {
+            ele.style.display = 'none';
+        });
+
+        document.querySelectorAll('.next-btn').forEach((ele) => {
+            ele.disabled = true
+        });
     }
 
     const handleFinish = () => {
-
+        const body = {
+            quiz: quiz,
+        }
+        console.log({ score })
+        addQuizHistory(body);
+        navigate('/dashboard');
     }
 
     useEffect(() => {
         if (!question_category || !question_difficulty || !question_type || !amount_of_question) {
             navigate('/dashboard');
         }
+
+        document.querySelectorAll('.next-btn').forEach((ele) => {
+            ele.disabled = true;
+        });
+
+        dispatch(handleChangeScore(0));
+
         loadData();
     }, []);
-
-    let optArray = ["Option 1", "Option 2", "Option 3", "Option 4"];
 
     return (
         <>

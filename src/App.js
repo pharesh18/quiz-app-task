@@ -36,7 +36,7 @@ function App() {
         </div>
         <div className="main"> */}
       <Routes>
-        <Route exact path="/" element={<Home></Home>} />
+        <Route exact path="/" element={userInfo ? <Dashboard></Dashboard> : <Home></Home>} />
         {/* <Route exact path="/dashboard/*" element={userInfo ? <Dashboard></Dashboard> : <Login></Login>} /> */}
         <Route exact path="/dashboard/*" element={<Dashboard></Dashboard>} />
         <Route exact path="/register" element={<Register></Register>} />
