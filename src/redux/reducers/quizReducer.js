@@ -8,7 +8,11 @@ import {
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAIL,
     GET_QUESTIONS_ERROR,
-    GET_QUIZZES
+    GET_QUIZZES,
+    GET_LEADERBOARD_DATA_REQUEST,
+    GET_LEADERBOARD_DATA_SUCCESS,
+    GET_LEADERBOARD_DATA_FAIL,
+    GET_LEADERBOARD_DATA_ERROR
 } from '../constants/constants';
 
 
@@ -29,6 +33,21 @@ export const getQuestionsReducer = (state = {}, action) => {
         case GET_QUESTIONS_FAIL:
             return { loading: false }
         case GET_QUESTIONS_ERROR:
+            return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
+
+export const getLeaderboardDataReducer = (state = [], action) => {
+    switch (action.type) {
+        case GET_LEADERBOARD_DATA_REQUEST:
+            return { loading: true }
+        case GET_LEADERBOARD_DATA_SUCCESS:
+            return { loading: false, state: action.payload }
+        case GET_LEADERBOARD_DATA_FAIL:
+            return { loading: false }
+        case GET_LEADERBOARD_DATA_ERROR:
             return { loading: false, error: action.payload }
         default:
             return state;

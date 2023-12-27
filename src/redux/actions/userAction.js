@@ -130,7 +130,7 @@ export const login = (body, navigate) => async (dispatch) => {
         const { data } = await axios.post(`${ApiCaller.site}/users/login`, body);
         if (!data.error) {
             // console.log(data);
-            toast.success(data.message);
+            // toast.success(data.message);
             dispatch({ type: LOGIN_SUCCESS, payload: data.data });
             // console.log(data.data);
             localStorage.setItem('userInfo', JSON.stringify(data.data));
@@ -183,7 +183,7 @@ export const forgetPassword = (body, navigate) => async (dispatch) => {
     }
 }
 
-export const changeProfile = async (profile, navigate) => {
+export const changeProfile = (profile, navigate) => async (dispatch) => {
     try {
         const headers = {
             'Content-Type': 'multipart/form-data',
@@ -195,9 +195,32 @@ export const changeProfile = async (profile, navigate) => {
         console.log(data);
         if (!data.error) {
             toast.success(data.message);
+            dispatch({ type: LOGIN_SUCCESS, payload: data.data });
             localStorage.setItem('userInfo', JSON.stringify(data.data));
             console.log(data.data);
             navigate('/');
+        } else {
+            toast.error(data.message);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const editProfile = (body, navigate) => async (dispatch) => {
+    try {
+        const headers = {
+            'Content-Type': 'application/json',
+            _id: userInfo._id,
+            accesstoken: userInfo.accesstoken
+        };
+
+        const { data } = await axios.put(`${ApiCaller.site}/users/editprofile`, body, { headers });
+        if (!data.error) {
+            toast.success(data.message);
+            dispatch({ type: LOGIN_SUCCESS, payload: data.data });
+            localStorage.setItem('userInfo', JSON.stringify(data.data));
+            navigate('/dashboard/userprofile');
         } else {
             toast.error(data.message);
         }
@@ -268,7 +291,7 @@ export const setNewPassword = (body, navigate) => async (dispatch) => {
             window.localStorage.removeItem("registerEmail");
             window.localStorage.removeItem("forgetPassword");
             window.localStorage.removeItem("OTP");
-            navigate('/');
+            navigate('/dashboard');
         } else {
             toast.error(data.message);
             dispatch({ type: SET_PASSWORD_FAIL });

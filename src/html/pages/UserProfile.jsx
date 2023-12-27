@@ -82,7 +82,7 @@ function UserProfile() {
                                 <input type="email" value={userInfo?.email} className="regist-input" name="email" placeholder="..." readOnly></input>
                             </div>
 
-                            <Link to="/editprofile" className="regist-button" type="button">
+                            <Link to="/dashboard/editprofile" className="regist-button" type="button">
                                 Edit profile
                             </Link>
                         </form>

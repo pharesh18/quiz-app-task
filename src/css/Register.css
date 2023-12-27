@@ -82,7 +82,8 @@
     font-size: small;
     font-weight: 500;
     padding: 2% 3% 2% 3%;
-    background-color: rgb(113, 65, 160);
+    /* background-color: rgb(113, 65, 160); */
+    background-image: linear-gradient(to right, rgb(121, 121, 226), rgb(145, 35, 145));
     border: none;
     border-radius: 5px;
     text-decoration: none;

@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import '../../css/ShowQuiz.css';
+import Button from 'react-bootstrap/Button';
+
 
 const ShowQuiz = () => {
     const { state } = useSelector((state) => state.getQuizzesReducer);
     const { quiz_id } = useParams();
+    console.log(state);
+
+    const [category, setCategory] = useState("");
+
+    const handleBack = () => {
+        window.history.back();
+    }
+
     return (
         <>
             <div className='show-quiz'>
@@ -79,7 +89,8 @@ const ShowQuiz = () => {
                         })
                     }
                 </div>
-            </div>
+            </div >
+            <div><Button onClick={handleBack} variant="primary">Back</Button></div>
         </>
     )
 }

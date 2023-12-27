@@ -46,7 +46,7 @@ schema.users = Schema({
     is_admin: {
         type: Boolean,
         default: false
-    }
+    },
 });
 
 schema.questions = Schema({
@@ -73,7 +73,7 @@ schema.questions = Schema({
     type: {
         type: String,
         required: true,
-    }
+    },
 });
 
 schema.quiz = Schema({
@@ -82,21 +82,30 @@ schema.quiz = Schema({
         ref: 'users',
         required: true,
     },
+    category: {
+        type: String,
+        required: true,
+    },
+    difficulty: {
+        type: String,
+        required: true,
+    },
+    type: {
+        type: String,
+        required: true,
+    },
+    score: {
+        type: Number,
+        required: true,
+    },
+    total_questions: {
+        type: Number,
+        required: true,
+    },
     quiz: {
         type: Array,
         required: true,
-    }
-    // quiz: {
-    //     que_id: {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'questions',
-    //         required: true,
-    //     },
-    //     user_answer: {
-    //         type: String,
-    //         required: true,
-    //     },
-    // }
+    },
 });
 
 

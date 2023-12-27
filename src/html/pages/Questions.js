@@ -73,34 +73,46 @@ const Questions = () => {
 
         // Display right icon for the correct answer
         const rightIcon = e.target.parentNode.querySelector('.right-icon');
-        rightIcon.style.display = selectedOption === rightAnswer ? 'block' : 'none';
+        if (rightIcon) {
+            rightIcon.style.display = selectedOption === rightAnswer ? 'block' : 'none';
+        }
 
         // Display wrong icon for incorrect answer
         const wrongIcon = e.target.parentNode.querySelector('.wrong-icon');
-        wrongIcon.style.display = selectedOption !== rightAnswer ? 'block' : 'none';
+        if (wrongIcon) {
+            wrongIcon.style.display = selectedOption !== rightAnswer ? 'block' : 'none';
+        }
 
         // Display right icon for the correct answer in the selected option
         const selectedOptionRightIcon = document.querySelector(`.option-btn[value="${rightAnswer}"] .right-icon`);
-        selectedOptionRightIcon.style.display = 'block';
+        if (selectedOptionRightIcon) {
+            selectedOptionRightIcon.style.display = 'block';
+        }
 
         const selectedOptionRightBtn = document.querySelector(`.option-btn[value="${rightAnswer}"]`);
-        selectedOptionRightBtn.style.backgroundColor = '#aaf8c9';
-        selectedOptionRightBtn.style.color = 'green';
-        selectedOptionRightBtn.style.border = '2px solid green';
+        if (selectedOptionRightBtn) {
+            selectedOptionRightBtn.style.backgroundColor = '#aaf8c9';
+            selectedOptionRightBtn.style.color = 'green';
+            selectedOptionRightBtn.style.border = '2px solid green';
+        }
 
         if (selectedOption !== rightAnswer) {
             const selectedOptionWrongBtn = document.querySelector(`.option-btn[value="${selectedOption}"]`);
-            selectedOptionWrongBtn.style.backgroundColor = '#ffcbd1';
-            selectedOptionWrongBtn.style.color = 'red';
-            selectedOptionWrongBtn.style.border = '2px solid red';
+            if (selectedOptionWrongBtn) {
+                selectedOptionWrongBtn.style.backgroundColor = '#ffcbd1';
+                selectedOptionWrongBtn.style.color = 'red';
+                selectedOptionWrongBtn.style.border = '2px solid red';
+            }
         }
 
         document.querySelectorAll('.option-btn').forEach((ele) => {
-            ele.disabled = true;
+            if (ele)
+                ele.disabled = true;
         });
 
         document.querySelectorAll('.next-btn').forEach((ele) => {
-            ele.disabled = false;
+            if (ele)
+                ele.disabled = false;
         });
 
 
@@ -120,30 +132,39 @@ const Questions = () => {
         setCurQue(curQue + 1);
 
         document.querySelectorAll('.option-btn').forEach((ele) => {
-            ele.disabled = false;
-            ele.style.backgroundColor = "aliceblue";
-            ele.style.color = "black";
-            ele.style.border = '2px solid #84c5fe';
+            if (ele) {
+                ele.disabled = false;
+                ele.style.backgroundColor = "aliceblue";
+                ele.style.color = "black";
+                ele.style.border = '2px solid #84c5fe';
+            }
         });
 
         document.querySelectorAll('.wrong-icon').forEach((ele) => {
-            ele.style.display = 'none';
+            if (ele)
+                ele.style.display = 'none';
         });
 
         document.querySelectorAll('.right-icon').forEach((ele) => {
-            ele.style.display = 'none';
+            if (ele)
+                ele.style.display = 'none';
         });
 
         document.querySelectorAll('.next-btn').forEach((ele) => {
-            ele.disabled = true
+            if (ele)
+                ele.disabled = true
         });
     }
 
     const handleFinish = () => {
         const body = {
+            category: question_category,
+            difficulty: question_difficulty,
+            type: question_type,
+            score: score,
+            total_questions: amount_of_question,
             quiz: quiz,
         }
-        console.log({ score })
         addQuizHistory(body);
         navigate('/dashboard');
     }
@@ -154,7 +175,8 @@ const Questions = () => {
         }
 
         document.querySelectorAll('.next-btn').forEach((ele) => {
-            ele.disabled = true;
+            if (ele)
+                ele.disabled = true;
         });
 
         dispatch(handleChangeScore(0));

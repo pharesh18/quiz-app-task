@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import logo from '../../images/logo.png';
 import '../../css/Sidebar.css';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -18,21 +19,21 @@ const Sidebar = () => {
     useEffect(() => {
         if (pathname === '/dashboard') {
             setNavActive(1);
-        } else if (pathname === '/dashboard/history' || '/dashboard/history/*') {
-            setNavActive(2);
         }
         else if (pathname === '/dashboard/leaderboard') {
             setNavActive(3);
-        } else if (pathname === '/dashboard/userprofile') {
+        } else if (pathname === '/dashboard/userprofile' || pathname === '/dashboard/editprofile') {
             setNavActive(4);
+        } else if (pathname === '/dashboard/history') {
+            setNavActive(2);
         }
 
     }, [pathname])
     return (
         <>
             <div className="sidebar">
-                <div className="logo" style={{ width: "160px", marginTop: "40px" }}>
-                    <img src={""} style={{ width: "160px", marginTop: "20px" }} alt="" />
+                <div className="logo">
+                    <img src={logo} style={{ width: "180px", marginTop: "20px", marginBottom: "25px", cursor: "pointer" }} alt="" />
                 </div>
                 <div className="menu">
                     <Link to="/dashboard" className="single-menu" id={navActive === 1 ? 'nav-active' : ''} onLoad={() => setNavActive(1)}>
@@ -45,7 +46,7 @@ const Sidebar = () => {
                         <span className="route">History</span>
                     </Link>
 
-                    <Link to="/starred" className="single-menu" id={navActive === 3 ? 'nav-active' : ''} onLoad={() => setNavActive(3)}>
+                    <Link to="/dashboard/leaderboard" className="single-menu" id={navActive === 3 ? 'nav-active' : ''} onLoad={() => setNavActive(3)}>
                         <StarBorderIcon className='menu-icon' />
                         <span className="route">Leaderboard</span>
                     </Link>

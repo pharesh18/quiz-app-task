@@ -80,7 +80,8 @@
     outline: none;
     border: none;
     margin-top: 30px;
-    background-color: rgb(43, 53, 199);
+    /* background-color: rgb(43, 53, 199); */
+    background-image: linear-gradient(to right, rgb(121, 121, 226), rgb(145, 35, 145));
     color: #fff;
     border-radius: 4px;
     cursor: pointer;

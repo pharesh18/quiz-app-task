@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import '../../css/Dashboard.css';
 import { getAllQuizzes } from '../../redux/actions/quizAction';
 import ShowQuiz from './ShowQuiz';
+import Leaderboard from './Leaderboard';
+import UpdateUserProfile from './UpdateUserProfile';
 // import Loader from './Loader';
 // import Error from './Error';
 
@@ -52,8 +54,10 @@ const Dashboard = () => {
                         <Routes>
                             <Route path="/" element={<Quiz></Quiz>} />
                             <Route path="userprofile" element={<UserProfile></UserProfile>} />
+                            <Route path="editprofile" element={<UpdateUserProfile></UpdateUserProfile>} />
                             <Route path="history" element={<History></History>} />
                             <Route path="history/quiz/:quiz_id" element={<ShowQuiz></ShowQuiz>}></Route>
+                            <Route path="leaderboard" element={<Leaderboard></Leaderboard>}></Route>
                         </Routes>
                     </div>
                 </div >

@@ -168,8 +168,8 @@ const registerUser = async (req, res) => {
 
                 let user = new users(data);
                 return await user.save().then(async () => {
-                    let text = `Dear ${data.fname} ${data.lname}, Here is your OTP to register on Quiz Web Application is ${otp}`;
-                    // let result = await sendEmail(data.email, "OTP from Quiz Web Application", text);
+                    let text = `Dear ${data.fname} ${data.lname}, Here is your OTP to register on Quizzeria Web Application is ${otp}`;
+                    let result = await sendEmail(data.email, "OTP from Quizzeria Web Application", text);
                     // console.log(result);
                     return_data.email = data.email;
                     res.send(return_data);
@@ -189,7 +189,7 @@ const registerUser = async (req, res) => {
     } else {
         let user = new users(data);
         return await user.save().then(async () => {
-            let text = `Dear ${data.fname} ${data.lname}, Here is your OTP to register on Quiz Web Application is ${otp}`;
+            let text = `Dear ${data.fname} ${data.lname}, Here is your OTP to register on Quizzeria Web Application is ${otp}`;
             // let result = await sendEmail(data.email, "OTP from Quiz Web Application", text);
             // console.log(result);
             return_data.email = data.email;
@@ -434,53 +434,88 @@ const validateUploadProfile = (req, res, next) => {
 }
 
 const uploadProfile = async (req, res) => {
-    // cloudinary.config({
-    //     cloud_name: process.env.CLOUDINARY_NAME,
-    //     api_key: process.env.CLOUDINARY_API_KEY,
-    //     api_secret: process.env.CLOUDINARY_API_SECRET,
-    //     secure: true
-    // });
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+        secure: true
+    });
 
-    // return await users.findOne({ _id: req.headers._id, is_verified: true }).exec().then(async (data) => {
-    // if (data) {
-    // await cloudinary.uploader.upload(req.files?.profile.tempFilePath, async (error, result) => {
-    //     if (result) {
-    //         if (data.public_id) {
-    //             await cloudinary.uploader.destroy(data.public_id);
-    //         }
-    //         const response = await users.findOneAndUpdate({ _id: req.headers._id, is_verified: true }, { profile: result.secure_url, public_id: result.public_id }, { new: true });
-    //         delete response._doc['password'];
-    //         response._doc['accesstoken'] = generateToken(response._doc._id);
-    //         console.log(response);
-    //         res.send({ error: false, message: 'success', data: response });
-    //     }
-    // }).catch(error => {
-    //     console.log(error);
-    //     res.send({ error: true, message: 'something_broken' });
-    // })
-    // } else {
-    // res.send({ error: true, message: "User not found" });
-    // }
-    // }).catch(error => {
-    // console.log(error);
-    // res.send({ error: true, message: "something_broken" });
-    // });
-    // return res.send({ errro: false, message: 'success' });
-
-
-
-    return await users.findOneAndUpdate({ _id: req.headers._id, is_verified: true }, { profile: req.file.filename, path: req.file.path }, { new: true }).then((data) => {
+    return await users.findOne({ _id: req.headers._id, is_verified: true }).exec().then(async (data) => {
         if (data) {
-            delete data._doc['password'];
-            data._doc['accesstoken'] = generateToken(data._doc._id);
-            console.log(data);
-            res.send({ error: false, message: 'Profile Updated Successfully', data: data });
+            await cloudinary.uploader.upload(req.files?.profile.tempFilePath, async (error, result) => {
+                if (result) {
+                    if (data.profile_id) {
+                        await cloudinary.uploader.destroy(data.profile_id);
+                    }
+                    const response = await users.findOneAndUpdate({ _id: req.headers._id, is_verified: true }, { profile_url: result?.url, profile_id: result?.public_id, profile_name: req?.files?.profile?.name }, { new: true });
+                    delete response._doc['password'];
+                    delete response._doc['profile_id'];
+                    response._doc['accesstoken'] = generateToken(response._doc._id);
+                    console.log(response);
+                    res.send({ error: false, message: 'success', data: response });
+                }
+            }).catch(error => {
+                console.log(error);
+                res.send({ error: true, message: 'something_broken' });
+            })
         } else {
             res.send({ error: true, message: "User not found" });
         }
-    }).catch((error) => {
+    }).catch(error => {
         console.log(error);
         res.send({ error: true, message: "something_broken" });
+    });
+
+
+
+    // return await users.findOneAndUpdate({ _id: req.headers._id, is_verified: true }, { profile: req.file.filename, path: req.file.path }, { new: true }).then((data) => {
+    //     if (data) {
+    //         delete data._doc['password'];
+    //         data._doc['accesstoken'] = generateToken(data._doc._id);
+    //         console.log(data);
+    //         res.send({ error: false, message: 'Profile Updated Successfully', data: data });
+    //     } else {
+    //         res.send({ error: true, message: "User not found" });
+    //     }
+    // }).catch((error) => {
+    //     console.log(error);
+    //     res.send({ error: true, message: "something_broken" });
+    // });
+}
+
+const validateEditProfileSchema = (req, res, next) => {
+    const userSchema = joi.object({
+        fname: joi.string().required().pattern(/^[a-zA-Z ]+$/).message('fname can only have alphabets').min(2).max(20).messages({
+            'string.empty': "fname is a required field",
+            'string.min': "fname must have atleast 2 characters",
+            'string.max': "fname cannot have more than 20 characters"
+        }),
+        lname: joi.string().required().pattern(/^[a-zA-Z ]+$/).message('lname can only have alphabets').min(2).max(20).messages({
+            'string.empty': "lname is a required field",
+            'string.min': "lname must have atleast 2 characters",
+            'string.max': "lname cannot have more than 20 characters"
+        }),
+    });
+
+    if (!validateRequest(req.body, res, next, userSchema)) {
+        return false;
+    }
+}
+
+const editProfile = async (req, res) => {
+    console.log(req.body);
+    return await users.findOneAndUpdate({ _id: req.headers._id }, { fname: req.body.fname, lname: req.body.lname }, { new: true }).then((data) => {
+        if (data) {
+            delete data._doc["password"];
+            delete data._doc["profile_id"];
+            res.send({ error: false, message: "Profile updated successfully!!", data: data });
+        } else {
+            res.send({ error: true, message: "Something went wrong" });
+        }
+    }).catch(err => {
+        console.log(err);
+        res.send({ error: true, message: "Something_broken" });
     });
 }
 
@@ -508,5 +543,7 @@ module.exports = {
     setPassword,
     validateUploadProfile,
     uploadProfile,
-    getAllUsers
+    getAllUsers,
+    validateEditProfileSchema,
+    editProfile
 };

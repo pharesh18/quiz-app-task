@@ -2,12 +2,13 @@
     width: calc(100vw - 250px);
     height: 70px;
     /* border: 1px solid black; */
-    background-color: #f0f3f7;
+    /* background-color: #f0f3f7; */
+    background-image: linear-gradient(to right, rgb(121, 121, 226), rgb(145, 35, 145));
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    border-bottom-left-radius: 10px;
+    /* border-bottom-left-radius: 10px; */
     /* box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2); */
     /* z-index: 1; */
 }
@@ -75,7 +76,7 @@
 }
 
 .dropdown-content {
-    display: none;
+    /* display: none; */
     position: absolute;
     top: 40px;
     right: 0;
@@ -102,16 +103,3 @@
 .profile-dropdown:hover .dropdown-content {
     display: block;
 }
-
-
-
-
-
-
-
-
-
-
-/* admin header */
-
-.admin-header {}
