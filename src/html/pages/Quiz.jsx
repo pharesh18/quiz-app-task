@@ -8,29 +8,9 @@ const Quiz = () => {
 
     const categoryOptions = [
         { id: 'General Knowledge', name: 'General Knowledge' },
-        { id: 'Entertainment: Books', name: 'Entertainment: Books' },
-        { id: 'Entertainment: Film', name: 'Entertainment: Film' },
-        { id: 'Entertainment: Music', name: 'General Knowledge' },
-        { id: 'Entertainment: Musicals & Theatres', name: 'Entertainment: Musicals & Theatres' },
-        { id: 'Entertainment: Television', name: 'Entertainment: Television' },
-        { id: 'Entertainment: Video Games', name: 'Entertainment: Video Games' },
-        { id: 'Entertainment: Board Games', name: 'Entertainment: Board Games' },
-        { id: 'Science & Nature', name: 'Science & Nature' },
-        { id: 'Science: Computers', name: 'Science: Computers' },
-        { id: 'Science: Mathematics', name: 'Science: Mathematics' },
-        { id: 'Mythology', name: 'Mythology' },
-        { id: 'Sports', name: 'Sports' },
         { id: 'Geography', name: 'Geography' },
         { id: 'History', name: 'History' },
-        { id: 'Politics', name: 'Politics' },
         { id: 'Art', name: 'Art' },
-        { id: 'Celebrities', name: 'Celebrities' },
-        { id: 'Animals', name: 'Animals' },
-        { id: 'Vehicles', name: 'Vehicles' },
-        { id: 'Entertainment: Comics', name: 'Entertainment: Comics' },
-        { id: 'Science: Gadgets', name: 'Science: Gadgets' },
-        { id: 'Entertainment: Japanese Anime & Manga', name: 'Entertainment: Japanese Anime & Manga' },
-        { id: 'Entertainment: Cartoon & Animations', name: 'Entertainment: Cartoon & Animations' },
     ];
 
     const dificultyOptions = [
@@ -45,15 +25,12 @@ const Quiz = () => {
     ]
 
     const numberOfQuestions = [
-        { id: '5', name: "5" },
         { id: '10', name: "10" },
-        { id: '15', name: "15" },
-        { id: '20', name: "20" },
     ]
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/questions');
+        navigate('/rules');
     }
 
     return (

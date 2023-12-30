@@ -14,9 +14,9 @@ function Terms() {
         <div className="terms-cont" style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%", background: "#fff" }}>
             <h3 className="term-title">Terms and Conditions</h3>
             <p className="terms">This Privacy Policy introduces to you our policies and procedures regarding the collection, use and disclosure of personal information we receive from users of the
-                quizwebapp.com website. By using the Website you consent
+                quizzeriawebapp.com website. By using the Website you consent
                 to the collection, use and disclosure of your personal information in accordance with this Policy. If you have questions or concerns regarding this policy, you should
-                first contact to quiz.web@gmail.com.</p>
+                first contact to quizzeria.web@gmail.com.</p>
 
 
             <p className="terms">How We Use Your Personal Data</p>
@@ -24,11 +24,11 @@ function Terms() {
             <p className="terms">1. We may process your account data. Account data may include your name and/or login and email address. The account data may be processed
                 for the purposes of providing our services, ensuring the security of our website and services and communicating with you.</p>
 
-            <p className="terms">2. We may process your information included in your personal profile on our website. The profile data may include your real name, email addres,
-                profile pictures, date of birth, address other information you provided in your profile.email will not be shown to other users of our services.</p>
+            <p className="terms">2. We may process your information included in your personal profile on our website. The profile data may include your real name, email,
+                profile pictures, other information you provided in your profile.email will not be shown to other users of our services.</p>
 
             <p className="terms">3. We may also collect your non-Registration Information including the number of uploads and downloads on the Website, profile changes, content changes.
-                We may collect and process the data about your use of "File Management System" service and the name of your templates.</p>
+                We may collect and process the data about your use of "Quizzeria" service and the name of your templates.</p>
             <p className="terms">4. we may also use the personal information disclosed to us to assist you with technical difficulties you may experience while using our Website.</p>
 
 
@@ -66,7 +66,7 @@ function Terms() {
                 How to Contact Us:
 
                 If you have any comments or inquiries about the information in this Privacy Statement, if you would like us to update your personal data,
-                or to exercise your rights, please contact us by email at quiz.web@gmail.com.com
+                or to exercise your rights, please contact us by email at quizzeria.web@gmail.com.com
 
             </p>
         </div>

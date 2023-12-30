@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import '../../css/Header.css';
-// import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
-// import profile from '../../images/profile1.jpg'
-import { NavLink, useNavigate } from 'react-router-dom';
+import profileImage from '../../images/user.png';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
     const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
@@ -15,6 +14,9 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('userInfo');
+        localStorage.removeItem("registerEmail");
+        localStorage.removeItem("forgetPassword");
+        localStorage.removeItem("OTP");
         // navigate('/login');
         window.location.href = '/login';
     }
@@ -24,26 +26,20 @@ const Header = () => {
             <div className="header">
                 <div>
                     <h4 style={{ color: "#fff", textTransform: "capitalize" }}>Welcome : {`${userInfo?.fname} ${userInfo?.lname}`}</h4>
-                    {/* <div className="searchbar"> */}
-                    {/* <div className="search"> */}
-                    {/* <SearchIcon className="search-icon"></SearchIcon> */}
-                    {/* <input type="text" className='search-input' placeholder='Search file' onChange={(e) => setSearchInput(e.target.value)} /> */}
-                    {/* </div> */}
-                    {/* <input type="button" className='search-button' value="Browse" /> */}
                 </div>
 
                 <div className="profile">
                     <div className="profile-dropdown" onClick={toggleDropdown}>
-                        {/* <img src={`http://localhost:8000/public/profiles/${userInfo?.profile}`} ""alt="" className='profile-image' /> */}
-                        <img src={userInfo?.profile_url} alt="" className='profile-image' />
+                        <img src={userInfo?.profile_url ? userInfo?.profile_url : profileImage} alt="" className='profile-image' />
 
                         <ArrowDropDownRoundedIcon style={{ color: "#fff" }}></ArrowDropDownRoundedIcon>
                         {isDropdownOpen && (
                             <>
                                 <div className="dropdown-content">
-                                    <NavLink to="/changeprofile" className="dropdown-menu">Change Profile</NavLink>
-                                    <NavLink to="/changepassword" className="dropdown-menu">Change Password</NavLink>
-                                    <NavLink to="#" className="dropdown-menu" onClick={handleLogout}>Logout</NavLink>
+                                    <NavLink to="/changeprofile" className="dropdown-tab">Change Profile Photo</NavLink>
+                                    <NavLink to="/dashboard/editprofile" className="dropdown-tab">Edit Profile</NavLink>
+                                    <NavLink to="/changepassword" className="dropdown-tab">Change Password</NavLink>
+                                    <NavLink to="#" className="dropdown-tab" onClick={handleLogout}>Logout</NavLink>
                                 </div>
                             </>
                         )}

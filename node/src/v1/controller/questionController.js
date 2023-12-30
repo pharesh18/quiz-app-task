@@ -25,7 +25,7 @@ const addQuestions = async (req, res) => {
         category: req.body.category,
         correct_answer: req.body.correct_answer,
         difficulty: req.body.difficulty,
-        incorrect_answers: req.body.incorrect_answers,
+        choices: req.body.choices,
         question: req.body.question,
         type: req.body.type,
     }

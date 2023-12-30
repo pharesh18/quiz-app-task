@@ -1,5 +1,5 @@
 import ApiCaller from '../../apiCaller/ApiCaller';
-import { CHANGE_CATEGORY, CHANGE_DIFFICULTY, CHANGE_TYPE, CHANGE_AMOUNT, CHANGE_SCORE, GET_QUIZZES, GET_LEADERBOARD_DATA_REQUEST, GET_LEADERBOARD_DATA_SUCCESS, GET_LEADERBOARD_DATA_FAIL, GET_LEADERBOARD_DATA_ERROR } from '../constants/constants';
+import { CHANGE_CATEGORY, CHANGE_DIFFICULTY, CHANGE_TYPE, CHANGE_AMOUNT, CHANGE_SCORE, GET_LEADERBOARD_DATA_REQUEST, GET_LEADERBOARD_DATA_SUCCESS, GET_LEADERBOARD_DATA_FAIL, GET_LEADERBOARD_DATA_ERROR, GET_QUIZZES_REQUEST, GET_QUIZZES_FAIL, GET_QUIZZES_SUCCESS, GET_QUIZZES_ERROR, ADD_QUIZ_SUCCESS, ADD_QUIZ_ERROR, ADD_QUIZ_FAIL, ADD_QUIZ_REQUEST } from '../constants/constants';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
@@ -30,26 +30,30 @@ export const handleChangeScore = payload => ({
     payload
 });
 
-export const addQuizHistory = async (body) => {
+export const addQuizHistory = (body) => async (dispatch) => {
     try {
         const headers = {
             'Content-Type': 'application/json',
             _id: userInfo._id,
             accesstoken: userInfo.accesstoken
         };
-
+        // dispatch({ type: ADD_QUIZ_REQUEST });
         const { data } = await axios.post(`${ApiCaller.site}/quiz/add`, body, { headers });
         if (!data.error) {
-            // console.log(data);
+            console.log(data);
+            // dispatch({ type: ADD_QUIZ_SUCCESS, payload: data.data[0] });
         } else {
+            // dispatch({ type: ADD_QUIZ_FAIL });
             toast.error(data.message);
         }
     } catch (err) {
         console.log(err);
+        // dispatch({ type: ADD_QUIZ_ERROR, payload: err });
     }
 }
 
 export const getAllQuizzes = () => async (dispatch) => {
+    console.log(userInfo);
     try {
         const headers = {
             'Content-Type': 'application/json',
@@ -57,15 +61,18 @@ export const getAllQuizzes = () => async (dispatch) => {
             accesstoken: userInfo.accesstoken
         };
 
+        dispatch({ type: GET_QUIZZES_REQUEST });
         const { data } = await axios.get(`${ApiCaller.site}/quiz/getall`, { headers });
         if (!data.error) {
             // console.log(data.data);
-            dispatch({ type: GET_QUIZZES, payload: data.data });
+            dispatch({ type: GET_QUIZZES_SUCCESS, payload: data.data });
         } else {
             toast.error(data.message);
+            dispatch({ type: GET_QUIZZES_FAIL });
         }
     } catch (err) {
         console.log(err);
+        dispatch({ type: GET_QUIZZES_ERROR, payload: err });
     }
 }
 

@@ -4,9 +4,9 @@ import logo from '../../images/logo.png';
 import '../../css/Sidebar.css';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 // import UploadDocument from './UploadDocument';
 // import CreateFolder from './CreateFolder';
 // import logo from '../../images/logo2.png';
@@ -47,12 +47,12 @@ const Sidebar = () => {
                     </Link>
 
                     <Link to="/dashboard/leaderboard" className="single-menu" id={navActive === 3 ? 'nav-active' : ''} onLoad={() => setNavActive(3)}>
-                        <StarBorderIcon className='menu-icon' />
+                        <LeaderboardIcon className='menu-icon' />
                         <span className="route">Leaderboard</span>
                     </Link>
 
                     <Link to="/dashboard/userprofile" className="single-menu" id={navActive === 4 ? 'nav-active' : ''} onLoad={() => setNavActive(4)}>
-                        <RestoreFromTrashIcon className='menu-icon' />
+                        <PermIdentityIcon className='menu-icon' />
                         <span className="route">Profile Information</span>
                     </Link>
                 </div>

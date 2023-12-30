@@ -6,6 +6,7 @@ import Table from 'react-bootstrap/Table';
 import { getLeaderboardData } from '../../redux/actions/quizAction';
 import Loader from './Loader';
 import Error from './Error';
+import Load from './Load';
 
 const Leaderboard = () => {
     const { loading, error, state } = useSelector(state => state.getLeaderboardDataReducer);
@@ -18,29 +19,9 @@ const Leaderboard = () => {
 
     const categoryOptions = [
         { id: 'General Knowledge', name: 'General Knowledge' },
-        { id: 'Entertainment: Books', name: 'Entertainment: Books' },
-        { id: 'Entertainment: Film', name: 'Entertainment: Film' },
-        { id: 'Entertainment: Music', name: 'General Knowledge' },
-        { id: 'Entertainment: Musicals & Theatres', name: 'Entertainment: Musicals & Theatres' },
-        { id: 'Entertainment: Television', name: 'Entertainment: Television' },
-        { id: 'Entertainment: Video Games', name: 'Entertainment: Video Games' },
-        { id: 'Entertainment: Board Games', name: 'Entertainment: Board Games' },
-        { id: 'Science & Nature', name: 'Science & Nature' },
-        { id: 'Science: Computers', name: 'Science: Computers' },
-        { id: 'Science: Mathematics', name: 'Science: Mathematics' },
-        { id: 'Mythology', name: 'Mythology' },
-        { id: 'Sports', name: 'Sports' },
         { id: 'Geography', name: 'Geography' },
         { id: 'History', name: 'History' },
-        { id: 'Politics', name: 'Politics' },
         { id: 'Art', name: 'Art' },
-        { id: 'Celebrities', name: 'Celebrities' },
-        { id: 'Animals', name: 'Animals' },
-        { id: 'Vehicles', name: 'Vehicles' },
-        { id: 'Entertainment: Comics', name: 'Entertainment: Comics' },
-        { id: 'Science: Gadgets', name: 'Science: Gadgets' },
-        { id: 'Entertainment: Japanese Anime & Manga', name: 'Entertainment: Japanese Anime & Manga' },
-        { id: 'Entertainment: Cartoon & Animations', name: 'Entertainment: Cartoon & Animations' },
     ];
 
     const dificultyOptions = [
@@ -79,13 +60,14 @@ const Leaderboard = () => {
     return (
         <>
             {
-                // loading && <Loader />
+                loading && <Load />
             }
             {
-                // error && <Error error={error} />
+                error && <Error error={error} />
             }
-            <h3>Leaderboard</h3>
             <div className="leaderboard">
+                <h3>Leaderboard</h3>
+
                 <div className="leaderboard-header">
                     <div className="select">
                         <label htmlFor="">Category</label>
@@ -126,35 +108,45 @@ const Leaderboard = () => {
                 </div>
 
                 <div className="leaderboard-list">
-                    <Table bordered hover style={{ textAlign: "center" }}>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Category</th>
-                                <th>Difficulty</th>
-                                <th>Type</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {state?.map((arr, idx) => {
-                                return (
-                                    <>
-                                        <tr>
-                                            <td style={{ textTransform: "capitalize" }}>{`${arr?.fname} ${arr?.lname}`}</td>
-                                            <td>{arr?.email}</td>
-                                            <td style={{ textTransform: "capitalize" }}>{arr?.category}</td>
-                                            <td style={{ textTransform: "capitalize" }}>{arr?.difficulty}</td>
-                                            <td style={{ textTransform: "capitalize" }}>{arr?.type}</td>
-                                            <td>{arr?.score}/{arr?.total_questions}</td>
-                                        </tr>
-                                    </>
-                                )
-                            })}
+                    {state?.length > 0 ? (
+                        <>
+                            <Table bordered hover style={{ textAlign: "center" }}>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Category</th>
+                                        <th>Difficulty</th>
+                                        <th>Type</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {state?.map((arr, idx) => {
+                                        return (
+                                            <>
+                                                <tr>
+                                                    <td style={{ textTransform: "capitalize" }}>{`${arr?.fname} ${arr?.lname}`}</td>
+                                                    <td>{arr?.email}</td>
+                                                    <td style={{ textTransform: "capitalize" }}>{arr?.category}</td>
+                                                    <td style={{ textTransform: "capitalize" }}>{arr?.difficulty}</td>
+                                                    <td style={{ textTransform: "capitalize" }}>{arr?.type}</td>
+                                                    <td>{arr?.score}/{arr?.total_questions}</td>
+                                                </tr>
+                                            </>
+                                        )
+                                    })}
 
-                        </tbody>
-                    </Table>
+                                </tbody>
+                            </Table>
+                        </>
+                    ) : (
+                        state?.length === 0 ? (
+                            <>
+                                <div style={{ fontSize: "30px" }}>No Data Found</div>
+                            </>
+                        ) : null
+                    )}
                 </div>
             </div>
         </>

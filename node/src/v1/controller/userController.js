@@ -504,7 +504,6 @@ const validateEditProfileSchema = (req, res, next) => {
 }
 
 const editProfile = async (req, res) => {
-    console.log(req.body);
     return await users.findOneAndUpdate({ _id: req.headers._id }, { fname: req.body.fname, lname: req.body.lname }, { new: true }).then((data) => {
         if (data) {
             delete data._doc["password"];

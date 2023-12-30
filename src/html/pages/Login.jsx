@@ -7,8 +7,7 @@ import Loader from './Loader';
 import Error from './Error';
 
 const Login = () => {
-    const loginData = useSelector((state) => state.loginReducer);
-    const { loading, error } = loginData;
+    const { loading, error } = useSelector((state) => state.loginReducer);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -25,7 +24,8 @@ const Login = () => {
     return (
         <>
             {loading && <Loader />}
-            {error && <Error />}
+            {error && <Error error={error} />}
+
             <div className='login'>
                 <div className="background">
                     <div className="log">

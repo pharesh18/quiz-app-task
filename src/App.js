@@ -16,25 +16,27 @@ import Dashboard from './html/pages/Dashboard';
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Questions from './html/pages/Questions';
+import Rules from './html/pages/Rules';
+import Score from './html/pages/Score';
+import ViewQuiz from './html/pages/ViewQuiz';
+// import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
+// import { getAllQuizzes } from './redux/actions/quizAction';
 
 function App() {
   // const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
   const userLogin = useSelector((state) => state.loginReducer);
   const { userInfo } = userLogin;
 
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getAllQuizzes());
+  // }, [dispatch])
+
   return (
+
     <div className="App">
-      {/* <div className="left">
-        <div>
-          <Sidebar></Sidebar>
-        </div>
-      </div> */}
-      {/* 
-      <div className='right'>
-        <div>
-          <Header></Header>
-        </div>
-        <div className="main"> */}
       <Routes>
         <Route exact path="/" element={userInfo ? <Dashboard></Dashboard> : <Home></Home>} />
         {/* <Route exact path="/dashboard/*" element={userInfo ? <Dashboard></Dashboard> : <Login></Login>} /> */}
@@ -46,7 +48,10 @@ function App() {
         <Route exact path='/changepassword' element={<ChangePassword></ChangePassword>} />
         <Route exact path='/forgetpassword' element={<ForgetPassword></ForgetPassword>} />
         <Route exact path='/terms' element={<Terms></Terms>} />
-        <Route exact path='/questions' element={<Questions></Questions>} />
+        <Route exact path='/questions' element={userInfo ? <Questions></Questions> : <Login></Login>} />
+        <Route exact path='/rules' element={<Rules></Rules>} />
+        <Route exact path='/score' element={userInfo ? <Score></Score> : <Login></Login>} />
+        <Route exact path='/viewquiz' element={userInfo ? <ViewQuiz></ViewQuiz> : <Login></Login>} />
       </Routes>
       {/* </div>
       </div> */}

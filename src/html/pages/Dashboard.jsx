@@ -31,11 +31,13 @@ const Dashboard = () => {
     //         <Error error={error}></Error>
     //     )
     // }
+
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getAllQuizzes());
-    }, [])
+    }, [dispatch])
 
 
     return (

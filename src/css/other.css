@@ -1,5 +1,5 @@
 .loader {
-    position: fixed;
+    /* position: fixed; */
     width: 100vw;
     margin: 0 0 0;
     padding: 19%;
@@ -7,6 +7,17 @@
     background-color: rgba(231, 229, 229, 0.4);
     z-index: 14;
     overflow: hidden;
+}
+
+.load {
+    position: absolute;
+    width: calc(100vw - 250px);
+    height: calc(100vh - 70px);
+    top: 70px;
+    left: 250px;
+    padding: 17%;
+    overflow: hidden;
+    background-color: rgba(231, 229, 229, 0.2);
 }
 
 .terms-cont {
@@ -30,5 +41,7 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
+    top: 0;
+    left: 0;
     background-color: #fff;
 }

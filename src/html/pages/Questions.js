@@ -7,16 +7,12 @@ import axios from 'axios';
 import '../../css/Questions.css';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { addQuizHistory, handleChangeScore } from '../../redux/actions/quizAction';
+import { addQuizHistory, getAllQuizzes, handleChangeScore } from '../../redux/actions/quizAction';
 import ApiCaller from '../../apiCaller/ApiCaller';
 import { GET_QUESTIONS_ERROR, GET_QUESTIONS_FAIL, GET_QUESTIONS_REQUEST, GET_QUESTIONS_SUCCESS } from '../../redux/constants/constants';
 import Loader from './Loader';
 import Error from './Error';
 import Loading from './Loading';
-
-// const generateRandomInt = (max) => {
-//     return Math.floor(Math.random() * Math.floor(max));
-// }
 
 const Questions = () => {
     const { question_category, question_difficulty, question_type, amount_of_question, score } = useSelector(state => state.quizReducer);
@@ -115,9 +111,6 @@ const Questions = () => {
                 ele.disabled = false;
         });
 
-
-        // setQues(...ques[curQue].user_answer = selectedOption);
-        // console.log(ques);
         const data = {
             que_id: ques[curQue]._id,
             user_answer: selectedOption,
@@ -165,8 +158,9 @@ const Questions = () => {
             total_questions: amount_of_question,
             quiz: quiz,
         }
-        addQuizHistory(body);
-        navigate('/dashboard');
+        dispatch(addQuizHistory(body));
+        dispatch(getAllQuizzes());
+        navigate('/score');
     }
 
     useEffect(() => {
@@ -197,8 +191,8 @@ const Questions = () => {
                     <div className='questions'>
                         <div className="question-box">
                             <div className="question-header">
-                                <h5>Quiz Application</h5>
-                                <div className="score">Score : {score}/5</div>
+                                <h5>Quizzeria Online Quiz</h5>
+                                <div className="score">Score : {score}/{ques?.length}</div>
                             </div>
                             <p className='que'>{curQue + 1}. {ques[curQue]?.question}</p>
                             <div className="question-options">
@@ -228,7 +222,6 @@ const Questions = () => {
                         </div>
                     </div>
                 </>) : (null)}
-
         </>
     )
 }

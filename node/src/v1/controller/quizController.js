@@ -1,5 +1,27 @@
 const { quizzes, questions, users } = require('../library/schema.js');
 
+// const addQuiz = async (req, res) => {
+//     let body = {
+//         user_id: req.headers._id,
+//         category: req.body.category,
+//         difficulty: req.body.difficulty,
+//         type: req.body.type,
+//         score: req.body.score,
+//         total_questions: req.body.total_questions,
+//         quiz: req.body.quiz,
+//     }
+//     console.log(body);
+
+//     let quizData = new quizzes(body);
+//     return await quizData.save().then(async (result) => {
+//         console.log(result);
+//         res.send({ error: false, message: 'success', data: result });
+//     }).catch((err) => {
+//         console.log(err);
+//         res.send({ err: true, message: 'something_broken' });
+//     });
+// };
+
 const addQuiz = async (req, res) => {
     let body = {
         user_id: req.headers._id,
@@ -10,12 +32,38 @@ const addQuiz = async (req, res) => {
         total_questions: req.body.total_questions,
         quiz: req.body.quiz,
     }
-    console.log(body);
 
     let quizData = new quizzes(body);
     return await quizData.save().then(async (result) => {
-        console.log(result);
-        res.send({ error: false, message: 'success', data: result });
+        let fullQuiz = [];
+        let singleQuiz = [];
+        if (result) {
+            for (var j = 0; j < body?.quiz?.length; j++) {
+                let quizResponse = await questions.find({ _id: body?.quiz[j]?.que_id });
+                let data = {
+                    que_id: quizResponse[0]?._id,
+                    // category: quizResponse[0]?.category,
+                    correct_answer: quizResponse[0]?.correct_answer,
+                    // difficulty: quizResponse[0]?.difficulty,
+                    question: quizResponse[0]?.question,
+                    // type: quizResponse[0]?.type,
+                    choices: [...quizResponse[0]?.choices],
+                    user_answer: body?.quiz[j]?.user_answer,
+                }
+                singleQuiz.push(data);
+            }
+            fullQuiz.push({
+                quiz_id: result?._id,
+                category: result?.category,
+                difficulty: result?.difficulty,
+                type: result?.type,
+                score: result?.score,
+                total_questions: result?.total_questions,
+                quiz: singleQuiz
+            });
+        }
+        console.log(fullQuiz);
+        res.send({ error: false, message: 'success', data: fullQuiz });
     }).catch((err) => {
         console.log(err);
         res.send({ err: true, message: 'something_broken' });

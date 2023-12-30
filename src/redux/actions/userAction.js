@@ -64,7 +64,6 @@ export const verifyOtp = (body, navigate) => async (dispatch) => {
         dispatch({ type: OTP_REQUEST });
         const { data } = await axios.post(`${ApiCaller.site}/users/otp`, body);
         if (!data.error) {
-            toast.success(data.message);
             dispatch({ type: OTP_SUCCESS });
             const isForgetPassword = localStorage.getItem('forgetPassword') ? JSON.parse(localStorage.getItem('forgetPassword')) : false;
             if (isForgetPassword) {
@@ -134,8 +133,8 @@ export const login = (body, navigate) => async (dispatch) => {
             dispatch({ type: LOGIN_SUCCESS, payload: data.data });
             // console.log(data.data);
             localStorage.setItem('userInfo', JSON.stringify(data.data));
-            navigate('/');
-            // window.location.href = '/';
+            // navigate('/');
+            window.location.href = '/';
         } else {
             toast.error(data.message);
             dispatch({ type: LOGIN_FAIL });
@@ -194,7 +193,6 @@ export const changeProfile = (profile, navigate) => async (dispatch) => {
         const { data } = await axios.post(`${ApiCaller.site}/users/uploadprofile`, profile, { headers });
         console.log(data);
         if (!data.error) {
-            toast.success(data.message);
             dispatch({ type: LOGIN_SUCCESS, payload: data.data });
             localStorage.setItem('userInfo', JSON.stringify(data.data));
             console.log(data.data);
