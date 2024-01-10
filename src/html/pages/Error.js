@@ -4,7 +4,7 @@ const Error = ({ error }) => {
     return (
         <>
             <div className='error-page'>
-                <h1>404 ERROR!!!</h1>
+                <h1>ERROR!!!</h1>
                 <div>{error?.message}</div>
             </div>
         </>

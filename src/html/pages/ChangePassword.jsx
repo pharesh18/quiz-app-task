@@ -57,7 +57,7 @@ const ChangePassword = () => {
             {email && otp ? (
                 <>
                     {setPassLoading && <Loader />}
-                    {setPassError && <Error error={error.messsage} />}
+                    {setPassError && <Error error={error} />}
                     <div className="register">
                         <div className="background">
                             <div className="regist">
@@ -95,7 +95,7 @@ const ChangePassword = () => {
                 </>) : (
                 <>
                     {loading && <Loader />}
-                    {error && <Error error={error.messsage} />}
+                    {error && <Error error={error} />}
                     <div className="register">
                         <div className="background">
                             <div className="regist">

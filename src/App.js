@@ -13,6 +13,7 @@ import Sidebar from './html/components/Sidebar';
 import Header from './html/components/Header';
 import { useSelector } from 'react-redux'
 import Dashboard from './html/pages/Dashboard';
+import Loader from './html/pages/Loader';
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Questions from './html/pages/Questions';
@@ -52,6 +53,7 @@ function App() {
         <Route exact path='/rules' element={<Rules></Rules>} />
         <Route exact path='/score' element={userInfo ? <Score></Score> : <Login></Login>} />
         <Route exact path='/viewquiz' element={userInfo ? <ViewQuiz></ViewQuiz> : <Login></Login>} />
+        <Route exact path='/loader' element={<Loader></Loader>} />
       </Routes>
       {/* </div>
       </div> */}

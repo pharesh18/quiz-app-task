@@ -190,8 +190,8 @@ const registerUser = async (req, res) => {
         let user = new users(data);
         return await user.save().then(async () => {
             let text = `Dear ${data.fname} ${data.lname}, Here is your OTP to register on Quizzeria Web Application is ${otp}`;
-            // let result = await sendEmail(data.email, "OTP from Quiz Web Application", text);
-            // console.log(result);
+            let result = await sendEmail(data.email, "OTP from Quiz Web Application", text);
+            console.log(result);
             return_data.email = data.email;
             res.send(return_data);
         }).catch((error) => {
@@ -453,7 +453,7 @@ const uploadProfile = async (req, res) => {
                     delete response._doc['profile_id'];
                     response._doc['accesstoken'] = generateToken(response._doc._id);
                     console.log(response);
-                    res.send({ error: false, message: 'success', data: response });
+                    res.send({ error: false, message: 'profile changed successfully!', data: response });
                 }
             }).catch(error => {
                 console.log(error);
@@ -508,6 +508,7 @@ const editProfile = async (req, res) => {
         if (data) {
             delete data._doc["password"];
             delete data._doc["profile_id"];
+            data._doc['accesstoken'] = generateToken(data._doc._id);
             res.send({ error: false, message: "Profile updated successfully!!", data: data });
         } else {
             res.send({ error: true, message: "Something went wrong" });

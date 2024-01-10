@@ -17,6 +17,8 @@ import Loading from './Loading';
 const Questions = () => {
     const { question_category, question_difficulty, question_type, amount_of_question, score } = useSelector(state => state.quizReducer);
     const { loading, error } = useSelector(state => state.getQuestionsReducer);
+    const userLogin = useSelector((state) => state.loginReducer);
+    const { userInfo } = userLogin;
 
     const [ques, setQues] = useState([]);
     const [curQue, setCurQue] = useState(0);
@@ -25,14 +27,13 @@ const Questions = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // let api = `https://opentdb.com/api.php?amount=${amount_of_question}&category=${question_category}&difficulty=${question_difficulty}&type=${question_type}`;
-    // let api = `https://opentdb.com/api.php?amount=${amount_of_question}&category=9&difficulty=${question_difficulty}&type=${question_type}`;
-
-    // let api = 'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple';
-    // console.log(body);
-    // console.log(api);
-
     const loadData = () => {
+        const headers = {
+            'Content-Type': 'application/json',
+            _id: userInfo._id,
+            accesstoken: userInfo.accesstoken
+        };
+
         const body = {
             category: question_category,
             difficulty: question_difficulty,
@@ -41,7 +42,7 @@ const Questions = () => {
         }
 
         dispatch({ type: GET_QUESTIONS_REQUEST });
-        axios.post(`${ApiCaller.site}/questions/get`, body).then((data) => {
+        axios.post(`${ApiCaller.site}/questions/get`, body, { headers }).then((data) => {
             if (!data.error) {
                 dispatch({ type: GET_QUESTIONS_SUCCESS });
                 setQues(data.data.data);

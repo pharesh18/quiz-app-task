@@ -1,6 +1,6 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
-import { changePasswordReducer, forgetPasswordReducer, loginReducer, otpReducer, registerReducer, setPasswordReducer, updateUserDetailsReducer } from './reducers/userReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import { changePasswordReducer, forgetPasswordReducer, loginReducer, otpReducer, registerReducer, setPasswordReducer, updateUserDetailsReducer, uploadProfileReducer } from './reducers/userReducer';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import { thunk } from 'redux-thunk';
 import quizReducer, { getLeaderboardDataReducer, getQuestionsReducer, getQuizzesReducer } from './reducers/quizReducer';
 
@@ -11,6 +11,7 @@ const mainReducer = combineReducers({
     loginReducer: loginReducer,
     changePasswordReducer: changePasswordReducer,
     otpReducer: otpReducer,
+    uploadProfileReducer: uploadProfileReducer,
     updateUserDetailsReducer: updateUserDetailsReducer,
     forgetPasswordReducer: forgetPasswordReducer,
     setPasswordReducer: setPasswordReducer,
@@ -24,6 +25,6 @@ const initialState = {
     loginReducer: { userInfo: userInfoFromStorage },
 }
 
-const store = createStore(mainReducer, initialState, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(mainReducer, initialState, applyMiddleware(thunk));
 
 export default store;

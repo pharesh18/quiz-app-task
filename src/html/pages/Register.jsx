@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import '../../css/Register.css';
 import Loader from './Loader';
 import Error from './Error';
-import { register, verifyOtp } from '../../redux/actions/userAction';
+import { register } from '../../redux/actions/userAction';
 
 const Register = () => {
-    const regist = useSelector((state) => state.registerReducer);
-    let { loading, error } = regist;
+    const { loading, error } = useSelector((state) => state.registerReducer);
     console.log(loading, error);
 
     const [email, setEmail] = useState(null);
@@ -16,8 +15,6 @@ const Register = () => {
     const [cpassword, setcPassword] = useState(null);
     const [profile, setProfile] = useState(null);
     const [checked, setChecked] = useState(false);
-
-    const [Otp, setOtp] = useState(new Array(4).fill(""));
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -37,14 +34,13 @@ const Register = () => {
         data.append('profile', profile);
         data.append('is_admin', false);
 
-        // register(data, setIsRegistered);
         dispatch(register(data, navigate));
     }
 
     return (
         <>
             {
-                loading && <Loader />
+                loading && <Loader></Loader>
             }
             {
                 error && <Error error={error} />
@@ -55,17 +51,17 @@ const Register = () => {
                         <div className="regist">
                             <form onSubmit={handleRegister}>
                                 <div className="regist-col">
-                                    <label className="regist-label">fname</label>
+                                    <label className="regist-label">fname <span style={{ color: "red" }}>*</span></label>
                                     <input type="text" className="regist-input" name="fname" placeholder="Enter First Name" required></input>
                                 </div>
 
                                 <div className="regist-col">
-                                    <label className="regist-label">lname</label>
+                                    <label className="regist-label">lname <span style={{ color: "red" }}>*</span></label>
                                     <input type="text" className="regist-input" name="lname" placeholder="Enter Last Name" required></input>
                                 </div>
 
                                 <div className="regist-col">
-                                    <label className="regist-label">E-mail</label>
+                                    <label className="regist-label">E-mail <span style={{ color: "red" }}>*</span></label>
                                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="regist-input" name="email" placeholder="Enter email" required></input>
                                 </div>
 
@@ -75,12 +71,12 @@ const Register = () => {
                                 </div>
 
                                 <div className="regist-col">
-                                    <label className="regist-label">Password</label>
+                                    <label className="regist-label">Password <span style={{ color: "red" }}>*</span></label>
                                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="regist-input" name="password" placeholder="Enter Password" minLength={3} maxLength={10} required></input>
                                 </div>
 
                                 <div className="regist-col">
-                                    <label className="regist-label">Confirm Password</label>
+                                    <label className="regist-label">Confirm Password <span style={{ color: "red" }}>*</span></label>
                                     <input type="password" value={cpassword} onChange={(e) => setcPassword(e.target.value)} className="regist-input" placeholder="Enter Confirm Password" id="comform" required></input>
                                     {password !== cpassword ? <span className="password-caution"> password doesn't matched</span> : null}
                                 </div>
@@ -88,7 +84,7 @@ const Register = () => {
                                 <div className="regist-col">
                                     <div className="regist-row">
                                         <input type="checkbox" onChange={(e) => e.target.checked ? setChecked(true) : setChecked(false)} className="radio-button" style={{ height: '1.01rem', marginTop: '5px' }} required></input>
-                                        <label className="regist-label terms">Agree with Terms & Conditions</label>
+                                        <label className="regist-label terms">Agree with Terms & Conditions <span style={{ color: "red" }}>*</span></label>
                                     </div>
                                     {/* <div className="regist-col"><label className="regiter"><Link to="/terms" style={{ fontSize: "85%", textDecoration: "none" }}>Terms and Condition</Link></label> </div> */}
                                     <div className="links">

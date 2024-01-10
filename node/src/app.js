@@ -6,10 +6,15 @@ const fileUpload = require('express-fileupload');
 
 const app = express();
 
-const result = dotenv.config({ path: path.join(__dirname, '../', '.env') });
-if (result.error) {
-    throw result.error;
+try {
+    const result = dotenv.config({ path: path.join(__dirname, '../', '.env') });
+    if (result.error) {
+        throw result.error;
+    }
+} catch (e) {
+    console.log(e);
 }
+
 
 app.use(cors());
 app.use(express.json());
@@ -19,7 +24,7 @@ app.use(fileUpload({
 }));
 // app.use('/public', express.static('public'));
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     return console.log(`Server is running at port : ${PORT}`);
 });

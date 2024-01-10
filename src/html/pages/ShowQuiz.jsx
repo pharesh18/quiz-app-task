@@ -54,57 +54,6 @@ const ShowQuiz = () => {
                                         <span className='values' style={{ textTransform: "capitalize", fontSize: "18px" }}>{data ? data.score : null}</span>
                                     </div>
                                 </div>
-                                {/* {
-                        state?.map((val) => {
-                            return (
-                                <>
-                                    {val.quiz_id === quiz_id ? (
-                                        <>
-                                            {val?.quiz?.map((singleQuiz, index) => {
-                                                return (
-                                                    <>
-                                                        <div className="question-box">
-                                                            <p className='que'>{index + 1}. {singleQuiz?.question}</p>
-                                                            <div className="question-options">
-                                                                {singleQuiz?.choices?.map((opt, idx) => {
-                                                                    return (
-                                                                        <div key={idx} className="option-box">
-                                                                            <button className={singleQuiz?.correct_answer === opt ? 'correct-answer option-btn' : singleQuiz?.correct_answer !== singleQuiz?.user_answer && singleQuiz?.user_answer === opt ? 'incorrect-answer option-btn' : 'option-btn'} disabled>
-                                                                                <span>{opt}</span>
-                                                                                <div className="answer-icon">
-                                                                                    {
-                                                                                        singleQuiz?.correct_answer === opt ? (
-                                                                                            <CheckCircleOutlineIcon className='right-icon'></CheckCircleOutlineIcon>
-                                                                                        ) : (
-                                                                                            singleQuiz?.correct_answer !== singleQuiz?.user_answer && singleQuiz?.user_answer === opt ? (
-                                                                                                <HighlightOffIcon className='wrong-icon'></HighlightOffIcon>
-                                                                                            ) : (
-                                                                                                null
-                                                                                            )
-
-                                                                                        )
-                                                                                    }
-                                                                                </div>
-                                                                            </button>
-                                                                        </div>
-                                                                    )
-                                                                })}
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                )
-                                            })
-                                            }</>
-                                    ) : (
-                                        null
-                                    )}
-                                </>
-                            )
-                        })
-                    } */}
-
-
-
                                 {
                                     data?.quiz?.map((singleQuiz, index) => {
                                         return (

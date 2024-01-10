@@ -11,23 +11,17 @@ const validateSchema = (req, res, next) => {
         return true;
     }
 
-    // const schema = joi.object({
-    //     _id: joi.string().required(),
-    //     accesstoken: joi.string().required()
-    // });
-
     const schema = joi.object({
-        _id: joi.string().required().messages({
-            'any.required': "Something_broken! Please try again!!",
-            'string.empty': "Something_broken! Please try again!!",
-        }),
-        accesstoken: joi.string().required().messages({
-            'any.required': "Something_broken! Please try again!!",
-            'string.empty': "Something_broken! Please try again!!",
-        }),
+        _id: joi.string().required(),
+        accesstoken: joi.string().required(),
     });
 
-    if (!validateRequest(req.headers, res, next, schema)) {
+    const headers = {
+        _id: req.headers._id,
+        accesstoken: req.headers.accesstoken,
+    };
+
+    if (!validateRequest(headers, res, next, schema)) {
         return false;
     }
 }

@@ -1,25 +1,8 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { CHANGE_PASSWORD_ERROR, CHANGE_PASSWORD_FAIL, CHANGE_PASSWORD_RERQUEST, CHANGE_PASSWORD_SUCCESS, FORGET_PASSWORD_ERROR, FORGET_PASSWORD_FAIL, FORGET_PASSWORD_RERQUEST, FORGET_PASSWORD_SUCCESS, LOGIN_ERROR, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, OTP_ERROR, OTP_FAIL, OTP_REQUEST, OTP_SUCCESS, REGISTRATION_ERROR, REGISTRATION_FAIL, REGISTRATION_REQUEST, REGISTRATION_SUCCESS, SET_PASSWORD_ERROR, SET_PASSWORD_FAIL, SET_PASSWORD_RERQUEST, SET_PASSWORD_SUCCESS } from '../constants/constants';
+import { CHANGE_PASSWORD_ERROR, CHANGE_PASSWORD_FAIL, CHANGE_PASSWORD_RERQUEST, CHANGE_PASSWORD_SUCCESS, FORGET_PASSWORD_ERROR, FORGET_PASSWORD_FAIL, FORGET_PASSWORD_RERQUEST, FORGET_PASSWORD_SUCCESS, LOGIN_ERROR, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, OTP_ERROR, OTP_FAIL, OTP_REQUEST, OTP_SUCCESS, REGISTRATION_ERROR, REGISTRATION_FAIL, REGISTRATION_REQUEST, REGISTRATION_SUCCESS, SET_PASSWORD_ERROR, SET_PASSWORD_FAIL, SET_PASSWORD_RERQUEST, SET_PASSWORD_SUCCESS, UPDATE_USER_DETAILS_ERROR, UPDATE_USER_DETAILS_FAIL, UPDATE_USER_DETAILS_REQUEST, UPDATE_USER_DETAILS_SUCCESS, UPLOAD_PROFILE_ERROR, UPLOAD_PROFILE_FAIL, UPLOAD_PROFILE_REQUEST, UPLOAD_PROFILE_SUCCESS } from '../constants/constants';
 import ApiCaller from '../../apiCaller/ApiCaller';
 const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
-
-// export const register = async (body, navigate) => {
-//     try {
-//         const { data } = await axios.post(`${ApiCaller.site}/users/register`, body);
-//         // console.log(data);
-//         if (!data.error) {
-//             toast.success("OTP sent on your email");
-//             // setIsRegistered(true);
-//             // console.log(data.email);
-//             navigate(`/otp/${data.email}`);
-//         } else {
-//             toast.error(data.message);
-//         }
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
 
 export const register = (body, navigate) => async (dispatch) => {
     try {
@@ -42,23 +25,6 @@ export const register = (body, navigate) => async (dispatch) => {
     }
 }
 
-// export const verifyOtp = async (body, navigate) => {
-//     try {
-//         const { data } = await axios.post(`${ApiCaller.site}/users/otp`, body);
-//         console.log(data);
-//         if (!data.error) {
-//             toast.success(data.message);
-//             localStorage.setItem('userInfo', JSON.stringify(data.data));
-//             navigate('/');
-//             // window.location.href = '/';
-//         } else {
-//             toast.error(data.message);
-//         }
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
-
 export const verifyOtp = (body, navigate) => async (dispatch) => {
     try {
         dispatch({ type: OTP_REQUEST });
@@ -73,7 +39,7 @@ export const verifyOtp = (body, navigate) => async (dispatch) => {
                 dispatch({ type: LOGIN_SUCCESS, payload: data.data });
                 localStorage.setItem('userInfo', JSON.stringify(data.data));
                 window.localStorage.removeItem("registerEmail");
-                navigate('/');
+                window.location.href = '/';
             }
         } else {
             toast.error(data.message);
@@ -86,54 +52,14 @@ export const verifyOtp = (body, navigate) => async (dispatch) => {
     }
 }
 
-// export const verifyFotp = async (body, navigate) => {
-//     try {
-//         const { data } = await axios.post(`${ApiCaller.site}/users/otp`, body);
-//         console.log(data);
-//         if (!data.error) {
-//             toast.success(data.message);
-//             // localStorage.setItem('userInfo', JSON.stringify(data.data));
-//             navigate(`/setpassword/${data.data.email}`);
-//             // window.location.href = '/';
-//         } else {
-//             toast.error(data.message);
-//         }
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
-
-// export const login = async (body, navigate) => {
-//     try {
-//         const { data } = await axios.post(`${ApiCaller.site}/users/login`, body);
-//         console.log(data);
-//         if (!data.error) {
-//             console.log(data);
-//             toast.success(data.message);
-//             console.log(data.data);
-//             localStorage.setItem('userInfo', JSON.stringify(data.data));
-//             navigate('/');
-//             // window.location.href = '/';
-//         } else {
-//             console.log(data);
-//             toast.error(data.message);
-//         }
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
 
 export const login = (body, navigate) => async (dispatch) => {
     try {
         dispatch({ type: LOGIN_REQUEST });
         const { data } = await axios.post(`${ApiCaller.site}/users/login`, body);
         if (!data.error) {
-            // console.log(data);
-            // toast.success(data.message);
             dispatch({ type: LOGIN_SUCCESS, payload: data.data });
-            // console.log(data.data);
             localStorage.setItem('userInfo', JSON.stringify(data.data));
-            // navigate('/');
             window.location.href = '/';
         } else {
             toast.error(data.message);
@@ -145,22 +71,6 @@ export const login = (body, navigate) => async (dispatch) => {
     }
 }
 
-
-
-
-// export const forgetPassword = async (body, navigate) => {
-//     try {
-//         const { data } = await axios.post(`${ApiCaller.site}/users/forgetpassword`, body);
-//         if (!data.error) {
-//             toast.success(data.message);
-//             navigate(`/fotp/${body.email}`);
-//         } else {
-//             toast.error(data.message);
-//         }
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
 
 export const forgetPassword = (body, navigate) => async (dispatch) => {
     try {
@@ -190,18 +100,24 @@ export const changeProfile = (profile, navigate) => async (dispatch) => {
             accesstoken: userInfo.accesstoken
         };
 
+        dispatch({ type: UPLOAD_PROFILE_REQUEST });
         const { data } = await axios.post(`${ApiCaller.site}/users/uploadprofile`, profile, { headers });
         console.log(data);
         if (!data.error) {
             dispatch({ type: LOGIN_SUCCESS, payload: data.data });
+            dispatch({ type: UPLOAD_PROFILE_SUCCESS });
             localStorage.setItem('userInfo', JSON.stringify(data.data));
             console.log(data.data);
             navigate('/');
         } else {
             toast.error(data.message);
+            dispatch({ type: UPLOAD_PROFILE_FAIL });
+
         }
     } catch (err) {
         console.log(err);
+        dispatch({ type: UPLOAD_PROFILE_ERROR, payload: err });
+
     }
 }
 
@@ -212,43 +128,24 @@ export const editProfile = (body, navigate) => async (dispatch) => {
             _id: userInfo._id,
             accesstoken: userInfo.accesstoken
         };
-
+        dispatch({ type: UPDATE_USER_DETAILS_REQUEST });
         const { data } = await axios.put(`${ApiCaller.site}/users/editprofile`, body, { headers });
         if (!data.error) {
             toast.success(data.message);
             dispatch({ type: LOGIN_SUCCESS, payload: data.data });
+            dispatch({ type: UPDATE_USER_DETAILS_SUCCESS });
             localStorage.setItem('userInfo', JSON.stringify(data.data));
             navigate('/dashboard/userprofile');
         } else {
+            dispatch({ type: UPDATE_USER_DETAILS_FAIL });
             toast.error(data.message);
         }
     } catch (err) {
+        dispatch({ type: UPDATE_USER_DETAILS_ERROR, payload: err });
         console.log(err);
     }
 }
 
-
-// export const changePassword = async (body, navigate) => {
-//     try {
-//         const headers = {
-//             'Content-Type': 'application/json',
-//             _id: userInfo._id,
-//             accesstoken: userInfo.accesstoken
-//         };
-
-//         const { data } = await axios.post(`${ApiCaller.site}/users/changepassword`, body, { headers });
-//         console.log(data);
-//         if (!data.error) {
-//             toast.success(data.message);
-//             localStorage.setItem('userInfo', JSON.stringify(data.data));
-//             navigate('/');
-//         } else {
-//             toast.error(data.message);
-//         }
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
 
 export const changePassword = (body, navigate) => async (dispatch) => {
     try {
@@ -263,9 +160,8 @@ export const changePassword = (body, navigate) => async (dispatch) => {
         if (!data.error) {
             toast.success(data.message);
             dispatch({ type: CHANGE_PASSWORD_SUCCESS });
-            // dispatch({ type: LOGIN_SUCCESS, payload: data.data });
             localStorage.setItem('userInfo', JSON.stringify(data.data));
-            navigate('/');
+            navigate('/dashboard');
         } else {
             toast.error(data.message);
             dispatch({ type: CHANGE_PASSWORD_FAIL });

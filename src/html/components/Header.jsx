@@ -17,8 +17,7 @@ const Header = () => {
         localStorage.removeItem("registerEmail");
         localStorage.removeItem("forgetPassword");
         localStorage.removeItem("OTP");
-        // navigate('/login');
-        window.location.href = '/login';
+        window.location.href = '/';
     }
 
     return (
@@ -39,7 +38,7 @@ const Header = () => {
                                     <NavLink to="/changeprofile" className="dropdown-tab">Change Profile Photo</NavLink>
                                     <NavLink to="/dashboard/editprofile" className="dropdown-tab">Edit Profile</NavLink>
                                     <NavLink to="/changepassword" className="dropdown-tab">Change Password</NavLink>
-                                    <NavLink to="#" className="dropdown-tab" onClick={handleLogout}>Logout</NavLink>
+                                    <NavLink to="/login" className="dropdown-tab" onClick={handleLogout}>Logout</NavLink>
                                 </div>
                             </>
                         )}

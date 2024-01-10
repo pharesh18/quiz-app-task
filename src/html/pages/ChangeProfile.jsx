@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { changeProfile } from '../../actions/userAction';
+import { useSelector, useDispatch } from "react-redux";
+import Loader from './Loader';
+import Error from './Error';
+import { changeProfile } from '../../redux/actions/userAction';
 
 const ChangeProfile = () => {
+    const { loading, error } = useSelector((state) => state.uploadProfileReducer);
     const [profile, setProfile] = useState(null);
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleProfile = (e) => {
@@ -19,19 +25,25 @@ const ChangeProfile = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('profile', profile);
-        changeProfile(formData, navigate);
+        dispatch(changeProfile(formData, navigate));
     }
 
     return (
         <>
+            {
+                loading && <Loader></Loader>
+            }
+            {
+                error && <Error error={error} />
+            }
             <div className='login'>
                 <div className="background">
                     <div className="log">
                         <form onSubmit={handleChangeProfile}>
-                            <h2 className='profile-title'>Update Profile</h2>
+                            <h2 className='profile-title'>Change Profile Picture</h2>
                             <div className="regist-col">
                                 {/* <label className="regist-label">Select profile</label> */}
-                                <input type="file" className='regist-input' onChange={handleProfile} required />
+                                <input type="file" accept='image/jpg, image/jpeg, image/png' className='regist-input' onChange={handleProfile} required />
                             </div>
                             <div className="buttons">
                                 <button className="regist-button" type="submit">

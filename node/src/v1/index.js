@@ -16,6 +16,7 @@ app.use('/api/quiz', quizRoutes);
 
 // const deleteAll = async () => {
 //     await quizzes.deleteMany();
+//     await users.deleteMany();
 // }
 
 // deleteAll();

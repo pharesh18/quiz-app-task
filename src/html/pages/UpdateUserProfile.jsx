@@ -3,9 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { editProfile } from "../../redux/actions/userAction";
+import Loader from "./Loader";
+import Error from "./Error";
+import Load from "./Load";
 
 function UpdateUserProfile() {
     const userLogin = useSelector((state) => state.loginReducer);
+    const { loading, error } = useSelector((state) => state.updateUserDetailsReducer);
     const { userInfo } = userLogin;
 
     const [fname, setFname] = useState(userInfo?.fname);
@@ -25,11 +29,17 @@ function UpdateUserProfile() {
 
     return (
         <>
+            {
+                loading && <Load></Load>
+            }
+            {
+                error && <Error error={error} />
+            }
             <div className="userprofile">
                 <div className="background">
                     <div className="regist">
                         <form onSubmit={handleEditProfile}>
-                            <h3>User Information</h3>
+                            <h3>Edit User Details</h3>
                             <div className="regist-col">
                                 <label className="regist-label">First name</label>
                                 <input type="text" value={fname} onChange={(e) => setFname(e.target.value)} className="regist-input" name="fname" placeholder="Enter First Name" required></input>
