@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Loader from './Loader';
 import Error from './Error';
 import { changePassword, setNewPassword } from '../../redux/actions/userAction';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const ChangePassword = () => {
     const pass = useSelector(state => state.changePasswordReducer)
@@ -19,6 +20,10 @@ const ChangePassword = () => {
     const [npassword, setnPassword] = useState(null);
     const [cpassword, setcPassword] = useState(null);
     const [spassword, setSpassword] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showSetPassword, setShowSetPassword] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -26,6 +31,22 @@ const ChangePassword = () => {
     const handleBack = () => {
         window.history.back();
     }
+
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleToggleNewPasswordVisibility = () => {
+        setShowNewPassword(!showNewPassword);
+    };
+
+    const handleToggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
+    const handleToggleSetPasswordVisibility = () => {
+        setShowSetPassword(!showSetPassword);
+    };
 
     const handleChangePassword = (e) => {
         e.preventDefault();
@@ -62,27 +83,41 @@ const ChangePassword = () => {
                         <div className="background">
                             <div className="regist">
                                 <form onSubmit={handleSetPassword}>
-                                    <div className="regist-col">
+                                    {/* <div className="regist-col">
                                         <label className="regist-label">New Password</label>
                                         <input type="password" value={spassword} onChange={(e) => setSpassword(e.target.value)} className="regist-input" name="password" placeholder="Enter New Password" minLength={3} maxLength={10} required></input>
+                                    </div> */}
+
+                                    <div className="regist-col">
+                                        <label className="regist-label">New Password <span style={{ color: "red" }}>*</span></label>
+                                        <div className='input-password'>
+                                            <input type={showSetPassword ? 'text' : 'password'} value={spassword} onChange={(e) => setSpassword(e.target.value)} className="regist-password" name="password" placeholder="Enter New Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,16}$" title="Password must have atleast: One uppercase letter, One lowercase letter, One number and One special case letter" required />
+                                            <button type='button' className='btn-password' onClick={handleToggleSetPasswordVisibility}>{showSetPassword ? <Visibility style={{color: "grey"}} /> : <VisibilityOff style={{color: "grey"}} />}</button>
+                                        </div>
                                     </div>
 
                                     {/* <div className="regist-col">
-                            <label className="regist-label">New Password</label>
-                            <input type="password" value={npassword} onChange={(e) => setnPassword(e.target.value)} className="regist-input" name="npassword" placeholder="Enter New Password" minLength={3} maxLength={10} required></input>
-                        </div> */}
-
-                                    <div className="regist-col">
                                         <label className="regist-label">Confirm Password</label>
                                         <input type="password" value={cpassword} onChange={(e) => setcPassword(e.target.value)} className="regist-input" placeholder="Confirm Password" id="comform" required></input>
                                         {spassword !== cpassword ? <span className="password-caution"> password doesn't matched</span> : null}
+                                    </div> */}
+
+
+                                    <div className="regist-col">
+                                        <label className="regist-label">Confirm Password <span style={{ color: "red" }}>*</span></label>
+                                        <div className='input-password'>
+                                            <input type={showConfirmPassword ? 'text' : 'password'} value={cpassword} onChange={(e) => setcPassword(e.target.value)} className="regist-password" placeholder="Enter Confirm Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,16}$" title="Password must have atleast: One uppercase letter, One lowercase letter, One number and One special case letter" id="comform" required></input>
+                                            <button type='button' className='btn-password' onClick={handleToggleConfirmPasswordVisibility}>{showConfirmPassword ? <Visibility style={{color: "grey"}} /> : <VisibilityOff style={{color: "grey"}} />}</button>
+                                        </div>
+                                        {spassword !== cpassword ? <span className="password-caution"> password doesn't matched</span> : null}
                                     </div>
-                                    {/* style={{ fontSize: "85%", textDecoration: "none", visibility: "hidden" }} */}
-                                    {/* <div className="regist-col"><label className="regiter"><NavLink to="/forgetpassword">Forget Password?</NavLink></label> </div> */}
 
                                     <div className="buttons">
-                                        <button type="submit" className="regist-button" disabled={spassword === cpassword ? false : true}>
+                                        {/* <button type="submit" className="regist-button" disabled={spassword === cpassword ? false : true}>
                                             Set Password
+                                        </button> */}
+                                        <button type="submit" className={spassword === cpassword ? "regist-button" : "regist-button-disabled"} disabled={(spassword === cpassword) ? false : true} >
+                                            Submit
                                         </button>
                                         <button className="regist-button" type="button" onClick={handleBack}>
                                             Back
@@ -101,26 +136,38 @@ const ChangePassword = () => {
                             <div className="regist">
                                 <form onSubmit={handleChangePassword}>
                                     <div className="regist-col">
-                                        <label className="regist-label">Current Password</label>
-                                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="regist-input" name="password" placeholder="Enter Current Password" minLength={3} maxLength={10} required></input>
+                                        <label className="regist-label">Password <span style={{ color: "red" }}>*</span></label>
+                                        <div className='input-password'>
+                                            <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} className="regist-password" name="password" placeholder="Enter Password" required />
+                                            <button type='button' className='btn-password' onClick={handleTogglePasswordVisibility}>{showPassword ? <Visibility style={{color: "grey"}} /> : <VisibilityOff style={{color: "grey"}} />}</button>
+                                        </div>
                                     </div>
 
                                     <div className="regist-col">
-                                        <label className="regist-label">New Password</label>
-                                        <input type="password" value={npassword} onChange={(e) => setnPassword(e.target.value)} className="regist-input" name="npassword" placeholder="Enter New Password" minLength={3} maxLength={10} required></input>
+                                        <label className="regist-label">New Password <span style={{ color: "red" }}>*</span></label>
+                                        <div className='input-password'>
+                                            <input type={showNewPassword ? 'text' : 'password'} value={npassword} onChange={(e) => setnPassword(e.target.value)} className="regist-password" name="npassword" placeholder="Enter New Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,16}$" title="Password must have atleast: One uppercase letter, One lowercase letter, One number and One special case letter" required />
+                                            <button type='button' className='btn-password' onClick={handleToggleNewPasswordVisibility}>{showNewPassword ? <Visibility style={{color: "grey"}} /> : <VisibilityOff style={{color: "grey"}} />}</button>
+                                        </div>
                                     </div>
 
                                     <div className="regist-col">
-                                        <label className="regist-label">Confirm Password</label>
-                                        <input type="password" value={cpassword} onChange={(e) => setcPassword(e.target.value)} className="regist-input" placeholder="Enter Confirm Password" id="comform" required></input>
+                                        <label className="regist-label">Confirm Password <span style={{ color: "red" }}>*</span></label>
+                                        <div className='input-password'>
+                                            <input type={showConfirmPassword ? 'text' : 'password'} value={cpassword} onChange={(e) => setcPassword(e.target.value)} className="regist-password" placeholder="Enter Confirm Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,16}$" title="Password must have atleast: One uppercase letter, One lowercase letter, One number and One special case letter" id="comform" required></input>
+                                            <button type='button' className='btn-password' onClick={handleToggleConfirmPasswordVisibility}>{showConfirmPassword ? <Visibility style={{color: "grey"}} /> : <VisibilityOff style={{color: "grey"}} />}</button>
+                                        </div>
                                         {npassword !== cpassword ? <span className="password-caution"> password doesn't matched</span> : null}
                                     </div>
-                                    {/* style={{ fontSize: "85%", textDecoration: "none", visibility: "hidden" }} */}
+           
                                     <div className="regist-col"><label className="regiter"><NavLink to="/forgetpassword">Forget Password?</NavLink></label> </div>
 
                                     <div className="buttons">
-                                        <button type="submit" className="regist-button" disabled={npassword === cpassword ? false : true}>
+                                        {/* <button type="submit" className="regist-button" disabled={npassword === cpassword ? false : true}>
                                             Change Password
+                                        </button> */}
+                                        <button type="submit" className={npassword === cpassword ? "regist-button" : "regist-button-disabled"} disabled={(npassword === cpassword) ? false : true} >
+                                            Submit
                                         </button>
                                         <button className="regist-button" type="button" onClick={handleBack}>
                                             Back

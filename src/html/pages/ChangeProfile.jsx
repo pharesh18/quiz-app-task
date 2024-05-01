@@ -42,7 +42,7 @@ const ChangeProfile = () => {
                         <form onSubmit={handleChangeProfile}>
                             <h2 className='profile-title'>Change Profile Picture</h2>
                             <div className="regist-col">
-                                {/* <label className="regist-label">Select profile</label> */}
+                                <label className="regist-label">Select profile picture&nbsp;<span style={{ color: "red" }}>*</span></label>
                                 <input type="file" accept='image/jpg, image/jpeg, image/png' className='regist-input' onChange={handleProfile} required />
                             </div>
                             <div className="buttons">

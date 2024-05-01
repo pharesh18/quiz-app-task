@@ -39,8 +39,8 @@ const ForgetPassword = () => {
                     <div className="regist">
                         <form onSubmit={handleForgetPassword}>
                             <div className="regist-col">
-                                <label className="regist-label">Email address</label>
-                                <input type="email" className="regist-input" placeholder="Enter email" name="email" onChange={(e) => setEmail(e.target.value)} required></input>
+                                <label className="regist-label">Email address&nbsp;<span style={{ color: "red" }}>*</span></label>
+                                <input type="email" className="regist-input" pattern="^[a-z][a-z0-9]*(\.[a-z0-9]+)*@[a-z0-9]+(\.[a-z0-9]+)*\.[a-z]{2,}$" title="Please enter a valid email address" placeholder="Enter email" name="email" onChange={(e) => setEmail(e.target.value)} required></input>
                             </div>
 
                             <div className="buttons">

@@ -130,7 +130,7 @@ const Leaderboard = () => {
                                                     <td>{arr?.email}</td>
                                                     <td style={{ textTransform: "capitalize" }}>{arr?.category}</td>
                                                     <td style={{ textTransform: "capitalize" }}>{arr?.difficulty}</td>
-                                                    <td style={{ textTransform: "capitalize" }}>{arr?.type}</td>
+                                                    <td style={{ textTransform: "capitalize" }}>{arr?.type && arr?.type == "boolean" ? "True/False" : "Multiple Choice"}</td>
                                                     <td>{arr?.score}/{arr?.total_questions}</td>
                                                 </tr>
                                             </>

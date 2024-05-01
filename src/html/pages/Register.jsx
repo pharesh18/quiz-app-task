@@ -5,16 +5,18 @@ import '../../css/Register.css';
 import Loader from './Loader';
 import Error from './Error';
 import { register } from '../../redux/actions/userAction';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Register = () => {
     const { loading, error } = useSelector((state) => state.registerReducer);
-    console.log(loading, error);
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [cpassword, setcPassword] = useState(null);
     const [profile, setProfile] = useState(null);
     const [checked, setChecked] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -23,6 +25,14 @@ const Register = () => {
         const uploadedFile = e.target.files[0]
         setProfile(uploadedFile);
     }
+    
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleToggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -51,53 +61,67 @@ const Register = () => {
                         <div className="regist">
                             <form onSubmit={handleRegister}>
                                 <div className="regist-col">
-                                    <label className="regist-label">fname <span style={{ color: "red" }}>*</span></label>
-                                    <input type="text" className="regist-input" name="fname" placeholder="Enter First Name" required></input>
+                                    <label className="regist-label">First Name <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text" className="regist-input" name="fname" pattern="[A-Za-z]{2,30}" title="Please enter 1-30 characters, A-Z or a-z, no space" placeholder="Enter First Name" required></input>
                                 </div>
 
                                 <div className="regist-col">
-                                    <label className="regist-label">lname <span style={{ color: "red" }}>*</span></label>
-                                    <input type="text" className="regist-input" name="lname" placeholder="Enter Last Name" required></input>
+                                    <label className="regist-label">Last Name <span style={{ color: "red" }}>*</span></label>
+                                    <input type="text" className="regist-input" name="lname" pattern="[A-Za-z']{2,30}" title="Please enter 1-30 characters, A-Z or a-z or ', no space" placeholder="Enter Last Name" required></input>
                                 </div>
 
                                 <div className="regist-col">
                                     <label className="regist-label">E-mail <span style={{ color: "red" }}>*</span></label>
-                                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="regist-input" name="email" placeholder="Enter email" required></input>
+                                    <input type="text" value={email} pattern="^[a-z][a-z0-9]*(\.[a-z0-9]+)*@[a-z0-9]+(\.[a-z0-9]+)*\.[a-z]{2,}$" title="Please enter a valid email address"  onChange={(e) => setEmail(e.target.value)} className="regist-input" name="email" placeholder="Enter email" required></input>
                                 </div>
 
                                 <div className="regist-col">
-                                    <label className="regist-label">Profile</label>
-                                    <input type="file" name="profile" onChange={handleProfile} className="regist-input"></input>
+                                    <label className="regist-label">Profile Picture</label>
+                                    <input type="file" name="profile" accept="image/png, image/jpg, image/jpeg" onChange={handleProfile} className="regist-input"></input>
                                 </div>
+
+                                {/* <div className="regist-col">
+                                    <label className="regist-label">Password <span style={{ color: "red" }}>*</span></label>
+                                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="regist-input" name="password" placeholder="Enter Password" required></input>
+                                </div> */}
 
                                 <div className="regist-col">
                                     <label className="regist-label">Password <span style={{ color: "red" }}>*</span></label>
-                                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="regist-input" name="password" placeholder="Enter Password" minLength={3} maxLength={10} required></input>
+                                    <div className='input-password'>
+                                        <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} className="regist-password" name="password" placeholder="Enter Password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,16}$" title="Password must have atleast: One uppercase letter, One lowercase letter, One number and One special case letter" />
+                                        <button type='button' className='btn-password' onClick={handleTogglePasswordVisibility}>{showPassword ? <Visibility style={{color: "grey"}} /> : <VisibilityOff style={{color: "grey"}} />}</button>
+                                    </div>
                                 </div>
 
                                 <div className="regist-col">
                                     <label className="regist-label">Confirm Password <span style={{ color: "red" }}>*</span></label>
-                                    <input type="password" value={cpassword} onChange={(e) => setcPassword(e.target.value)} className="regist-input" placeholder="Enter Confirm Password" id="comform" required></input>
+                                    <div className='input-password'>
+                                        <input type={showConfirmPassword ? 'text' : 'password'} value={cpassword} onChange={(e) => setcPassword(e.target.value)} className="regist-password" placeholder="Enter Confirm Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,16}$" title="Password must have atleast: One uppercase letter, One lowercase letter, One number and One special case letter" id="comform" required></input>
+                                        <button type='button' className='btn-password' onClick={handleToggleConfirmPasswordVisibility}>{showConfirmPassword ? <Visibility style={{color: "grey"}} /> : <VisibilityOff style={{color: "grey"}} />}</button>
+                                    </div>
                                     {password !== cpassword ? <span className="password-caution"> password doesn't matched</span> : null}
                                 </div>
 
                                 <div className="regist-col">
                                     <div className="regist-row">
-                                        <input type="checkbox" onChange={(e) => e.target.checked ? setChecked(true) : setChecked(false)} className="radio-button" style={{ height: '1.01rem', marginTop: '5px' }} required></input>
+                                        <input type="checkbox" onChange={(e) => e.target.checked ? setChecked(true) : setChecked(false)} style={{width: "20px", height: "1.1rem", marginTop: "5px", marginRight: "20px"}} required></input>
                                         <label className="regist-label terms">Agree with Terms & Conditions <span style={{ color: "red" }}>*</span></label>
                                     </div>
-                                    {/* <div className="regist-col"><label className="regiter"><Link to="/terms" style={{ fontSize: "85%", textDecoration: "none" }}>Terms and Condition</Link></label> </div> */}
                                     <div className="links">
-                                        <div className="regist-col"><label className="regiter"><Link to="/terms" style={{ fontSize: "85%", textDecoration: "none" }}>Terms and Condition</Link></label> </div>
-                                        <div className="regist-col"><label className="regiter"><NavLink to="/login" style={{ fontSize: "85%", textDecoration: "none" }}>Already Registered?</NavLink></label> </div>
+                                        <div className="regist-col"><label className="regiter"><a href='/terms' target='_blank' style={{ fontSize: "100%", textDecoration: "none", color: "blue", cursor: "pointer" }}>Terms and Condition</a></label> </div>
+                                        <div className="regist-col"><label className="regiter"><NavLink to="/login" style={{ fontSize: "100%", textDecoration: "none", color: "blue", cursor: "pointer" }}>Already Registered?</NavLink></label> </div>
                                     </div>
                                 </div>
 
-                                {/* <button className="regist-button" type="submit" disabled={password !== cpassword ? true : false} > */}
-                                <button className="regist-button" type="submit" disabled={(checked && password === cpassword) ? false : true} >
+                                <button type="submit" className={checked && password === cpassword ? "regist-button" : "regist-button-disabled"} disabled={(checked && password === cpassword) ? false : true} >
                                     Submit
                                 </button>
                             </form>
+                            <div className='required-fields'>
+                                <span>Fields marked</span>&nbsp;
+                                <span style={{ color: "red" }}>*</span>&nbsp;
+                                <span>are required</span>
+                            </div>
                         </div>
                     </div>
                 </div>

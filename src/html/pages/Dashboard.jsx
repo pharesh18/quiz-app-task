@@ -62,8 +62,8 @@ const Dashboard = () => {
                             <Route path="leaderboard" element={<Leaderboard></Leaderboard>}></Route>
                         </Routes>
                     </div>
-                </div >
-            </div >
+                </div>
+            </div>
         </>
     )
 }
